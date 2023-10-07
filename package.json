@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@farcaster/hub-web": "^0.6.6",
     "@heroicons/react": "^2.0.18",
     "@noble/ed25519": "^2.0.0",
     "@tailwindcss/forms": "^0.5.6",

@@ -1,4 +1,4 @@
-import { usePrepareContractWrite, useContractWrite, useAccount, useSignTypedData } from 'wagmi'
+import { usePrepareContractWrite, useContractWrite, useAccount, useSignTypedData, useWaitForTransaction } from 'wagmi'
 import * as ed from "@noble/ed25519";
 import { SignedKeyRequestMetadataABI } from '@/abi/SignedKeyRequestMetadataABI';
 import { encodeAbiParameters } from 'viem'
@@ -52,7 +52,7 @@ export default function AddSignerButton() {
     },
     primaryType: "SignedKeyRequest",
     message: {
-      requestFid: BigInt(15671),
+      requestFid: BigInt(15671), // TODO read from contract
       key: publicKey as `0x${string}`,
       deadline: BigInt(deadline),
     },
@@ -68,7 +68,11 @@ export default function AddSignerButton() {
     enabled: Boolean(metadata),
   })
 
-  const { data: txHash, isError: isErrorContractWrite, error: errorContractWrite, isIdle, isLoading, write } = useContractWrite(config)
+  const { data: txData, isError: isErrorContractWrite, error: errorContractWrite, isIdle, isLoading, write } = useContractWrite(config)
+
+  const { isLoading: isLoadingTx, isSuccess: isSuccessTx } = useWaitForTransaction({
+    hash: txData?.hash,
+  })
 
   const addSigner = async () => {
     signTypedData()
@@ -122,10 +126,23 @@ export default function AddSignerButton() {
   }, [write])
 
   useEffect(() => {
-    if (txHash) {
-      console.log(`https://optimistic.etherscan.io/tx/${txHash.hash}`)
+    const signerPublicKeyLocalStorageKey = `signerPublicKey-${address}`
+    const signerPrivateKeyLocalStorageKey = `signerPrivateKey-${address}`
+
+    if (isLoadingTx) {
+      console.log(`https://optimistic.etherscan.io/tx/${txData?.hash}`)
     }
-  }, [txHash])
+
+    if (isSuccessTx === true) {
+      if (localStorage.getItem(signerPublicKeyLocalStorageKey) !== null && localStorage.getItem(signerPrivateKeyLocalStorageKey) !== null) {
+        return
+      }
+
+      localStorage.setItem(signerPublicKeyLocalStorageKey, publicKey as `0x${string}`)
+      localStorage.setItem(signerPrivateKeyLocalStorageKey, ed.etc.bytesToHex(privateKey as Uint8Array))
+      alert("Signer added")
+    }
+  }, [isLoadingTx, isSuccessTx])
 
 
   return (
