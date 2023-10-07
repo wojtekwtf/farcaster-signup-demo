@@ -2,25 +2,14 @@
 
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid'
 import { ConnectKitButton } from 'connectkit'
-import { usePrepareContractWrite, useContractWrite } from 'wagmi'
+import RegisterFIDButton from './RegisterFIDButton'
+import RentStorageUnitButton from './RentStorageUnitButton'
+import AddSignerButton from './AddSignerButton'
+import RegisterFNameButton from './RegisterFNameButton'
+import SendCastButton from './SendCastButton'
 
 
 export default function Checklist() {
-
-  const { config } = usePrepareContractWrite({
-    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-    abi: [
-      {
-        name: 'mint',
-        type: 'function',
-        stateMutability: 'nonpayable',
-        inputs: [],
-        outputs: [],
-      },
-    ],
-    functionName: 'mint',
-  })
-  const { write } = useContractWrite(config)
 
   return (
     <fieldset className=" border-gray-200 min-w-[600px]">
@@ -40,14 +29,7 @@ export default function Checklist() {
               To perform any action on farcaster, your need an FID.
             </p>
           </div>
-          <button
-            disabled={!write}
-            onClick={() => write?.()}
-            type="button"
-            className="w-28 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-          >
-            Register
-          </button>
+          <RegisterFIDButton />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -59,15 +41,7 @@ export default function Checklist() {
               One storage unit let's you store up to 5000 casts a year and costs $7
             </p>
           </div>
-          <a
-            href='https://optimistic.etherscan.io/address/0x00000000fcce7f938e7ae6d3c335bd6a1a7c593d#writeContract'
-            target='_blank'
-            type="button"
-            className="w-28 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-          >
-            Etherscan
-            <ArrowTopRightOnSquareIcon className="-mr-0.5 h-5 w-5" aria-hidden="true" />
-          </a>
+          <RentStorageUnitButton />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -79,15 +53,7 @@ export default function Checklist() {
               to the protocol on your behalf.
             </p>
           </div>
-          <a
-            href='https://goerli-optimism.etherscan.io/address/0x34a6f04b474eb64d9a82017a01acbe5a58a0f541#writeContract'
-            target='_blank'
-            type="button"
-            className="w-28 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-          >
-            Etherscan
-            <ArrowTopRightOnSquareIcon className="-mr-0.5 h-5 w-5" aria-hidden="true" />
-          </a>
+          <AddSignerButton />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -107,12 +73,7 @@ export default function Checklist() {
               data-1p-ignore
             />
           </div>
-          <button
-            type="button"
-            className="w-28 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-          >
-            Register
-          </button>
+          <RegisterFNameButton />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -130,12 +91,7 @@ export default function Checklist() {
               placeholder="Type your cast"
             />
           </div>
-          <button
-            type="button"
-            className="w-28 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-          >
-            Cast
-          </button>
+          <SendCastButton />
         </div>
       </div>
     </fieldset>
