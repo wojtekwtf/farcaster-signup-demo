@@ -25,7 +25,7 @@ export default function Checklist() {
             <label htmlFor="comments" className="font-medium text-gray-900 dark:text-white">
               Register an FID
             </label>
-            <p id="comments-description" className="text-gray-500">
+            <p id="comments-description" className="text-gray-500 dark:text-gray-400">
               To perform any action on farcaster, your need an FID.
             </p>
           </div>
@@ -36,7 +36,7 @@ export default function Checklist() {
             <label htmlFor="candidates" className="font-medium text-gray-900 dark:text-white">
               Purchase a storage unit
             </label>
-            <p id="candidates-description" className="text-gray-500">
+            <p id="candidates-description" className="text-gray-500 dark:text-gray-400">
               To use Farcaster you need to pay for storing data in the hubs. <br />
               One storage unit lets you store up to 5000 casts a year and costs $7
             </p>
@@ -48,7 +48,7 @@ export default function Checklist() {
             <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Add a signer
             </label>
-            <p id="offers-description" className="text-gray-500">
+            <p id="offers-description" className="text-gray-500 dark:text-gray-400">
               Signers are keypairs that have a permission to write <br />
               to the protocol on your behalf.
             </p>
@@ -60,7 +60,7 @@ export default function Checklist() {
             <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Register an fname <span className="text-gray-400">(optional)</span>
             </label>
-            <p id="offers-description" className="text-gray-500 mb-2">
+            <p id="offers-description" className="text-gray-500 mb-2 dark:text-gray-400">
               Fnames are ENS domains managed by Warpcast team. <br />
               They are not required to use Farcaster. But you can register one anyway
             </p>
@@ -80,7 +80,7 @@ export default function Checklist() {
             <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Publish a cast
             </label>
-            <p id="offers-description" className="text-gray-500 mb-2">
+            <p id="offers-description" className="text-gray-500 mb-2 dark:text-gray-400">
               With an FID, a storage unit and a signer you can publish a cast. <br />
             </p>
             <input
