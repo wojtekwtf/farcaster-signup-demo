@@ -3,17 +3,14 @@ import { usePrepareContractWrite, useContractWrite } from 'wagmi'
 export default function RegisterFIDButton() {
 
   const { config } = usePrepareContractWrite({
-    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+    address: '0x00000000fcce7f938e7ae6d3c335bd6a1a7c593d',
     abi: [
-      {
-        name: 'mint',
-        type: 'function',
-        stateMutability: 'nonpayable',
-        inputs: [],
-        outputs: [],
-      },
+      { "inputs": [{ "internalType": "uint256", "name": "fid", "type": "uint256" }, { "internalType": "uint256", "name": "units", "type": "uint256" }], "name": "rent", "outputs": [{ "internalType": "uint256", "name": "overpayment", "type": "uint256" }], "stateMutability": "payable", "type": "function" }
     ],
-    functionName: 'mint',
+    functionName: 'rent',
+    args: [680, 1],
+    value: BigInt(5000000000000000), // TODO estimate it correctly
+    enabled: true,
   })
   const { write } = useContractWrite(config)
 

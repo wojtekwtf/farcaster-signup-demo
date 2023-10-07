@@ -38,7 +38,7 @@ export default function Checklist() {
             </label>
             <p id="candidates-description" className="text-gray-500">
               To use Farcaster you need to pay for storing data in the hubs. <br />
-              One storage unit let's you store up to 5000 casts a year and costs $7
+              One storage unit lets you store up to 5000 casts a year and costs $7
             </p>
           </div>
           <RentStorageUnitButton />
