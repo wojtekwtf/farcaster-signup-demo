@@ -2,12 +2,14 @@ import {
   FarcasterNetwork,
   makeCastAdd,
   NobleEd25519Signer,
+  Message
 } from '@farcaster/hub-web';
 import { useAccount } from 'wagmi';
-
 import { useEffect, useState } from 'react'
 
-export default function RegisterFIDButton() {
+import axios from 'axios'
+
+export default function RegisterFIDButton({ castText }: { castText: string }) {
 
   const [signer, setSigner] = useState<NobleEd25519Signer | undefined>()
   const { address } = useAccount()
@@ -21,7 +23,7 @@ export default function RegisterFIDButton() {
 
     const message = await makeCastAdd(
       {
-        text: "test from client js", // TODO change to text from input
+        text: castText,
         embeds: [],
         embedsDeprecated: [],
         mentions: [],
@@ -32,9 +34,7 @@ export default function RegisterFIDButton() {
     );
 
     if (message) {
-      alert(message.unwrapOr(null)?.data.castAddBody.text)
-
-      // TODO add api
+      axios.post("/hub", { message: Message.toJSON(message.unwrapOr(null) as Message) })
     } else {
       console.log("failed to create message")
     }

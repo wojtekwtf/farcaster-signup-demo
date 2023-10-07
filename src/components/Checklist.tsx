@@ -1,6 +1,5 @@
 'use client'
 
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid'
 import { ConnectKitButton } from 'connectkit'
 import RegisterFIDButton from './RegisterFIDButton'
 import RentStorageUnitButton from './RentStorageUnitButton'
@@ -8,8 +7,12 @@ import AddSignerButton from './AddSignerButton'
 import RegisterFNameButton from './RegisterFNameButton'
 import SendCastButton from './SendCastButton'
 
+import { useState } from 'react'
+
 
 export default function Checklist() {
+
+  const [castText, setCastText] = useState('')
 
   return (
     <fieldset className=" border-gray-200 min-w-[600px]">
@@ -87,11 +90,12 @@ export default function Checklist() {
               type="text"
               name="cast"
               id="cast"
+              onChange={(e) => setCastText(e.target.value)}
               className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300"
               placeholder="Type your cast"
             />
           </div>
-          <SendCastButton />
+          <SendCastButton castText={castText} />
         </div>
       </div>
     </fieldset>
