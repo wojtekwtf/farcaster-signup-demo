@@ -9,7 +9,7 @@ export default function RegisterFIDButton() {
     ],
     functionName: 'register',
     args: ["0xF417ACe7b13c0ef4fcb5548390a450A4B75D3eB3"], // TODO allow people to input this
-    enabled: Boolean("0xF417ACe7b13c0ef4fcb5548390a450A4B75D3eB3"),
+    enabled: false,
   })
   const { write } = useContractWrite(config)
 

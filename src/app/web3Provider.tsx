@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, PropsWithChildren } from 'react'
-import { WagmiConfig, createConfig } from 'wagmi'
+import { WagmiConfig, createConfig, mainnet } from 'wagmi'
 import { optimism } from 'wagmi/chains'
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 
@@ -10,8 +10,7 @@ const config = createConfig(
     // Required API Keys
     alchemyId: "wdTgzo6QiXtOb9HI8z-uqNaVfZ1PCLCP",
     walletConnectProjectId: "5a2cb35e0ed7f091a5c2c9a5cf4ed988",
-    chains: [optimism],
-    // TODO fix this for ENS integration?
+    chains: [optimism, mainnet],
 
     // Required
     appName: "Sign up for Farcaster",

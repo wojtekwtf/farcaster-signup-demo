@@ -10,7 +10,7 @@ export default function RegisterFIDButton() {
     functionName: 'rent',
     args: [680, 1],
     value: BigInt(5000000000000000), // TODO estimate it correctly
-    enabled: true,
+    enabled: false,
   })
   const { write } = useContractWrite(config)
 
