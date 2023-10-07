@@ -14,7 +14,7 @@ export default function Checklist() {
   return (
     <fieldset className=" border-gray-200 min-w-[600px]">
       <div className='flex flex-row justify-between mb-6'>
-        <h1 className="text-2xl font-semibold text-gray-900">
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
           Sign up for Farcaster
         </h1>
         <ConnectKitButton />
@@ -22,7 +22,7 @@ export default function Checklist() {
       <div className="divide-y divide-gray-200">
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
-            <label htmlFor="comments" className="font-medium text-gray-900">
+            <label htmlFor="comments" className="font-medium text-gray-900 dark:text-white">
               Register an FID
             </label>
             <p id="comments-description" className="text-gray-500">
@@ -33,7 +33,7 @@ export default function Checklist() {
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
-            <label htmlFor="candidates" className="font-medium text-gray-900">
+            <label htmlFor="candidates" className="font-medium text-gray-900 dark:text-white">
               Purchase a storage unit
             </label>
             <p id="candidates-description" className="text-gray-500">
@@ -45,7 +45,7 @@ export default function Checklist() {
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
-            <label htmlFor="offers" className="font-medium text-gray-900">
+            <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Add a signer
             </label>
             <p id="offers-description" className="text-gray-500">
@@ -57,7 +57,7 @@ export default function Checklist() {
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
-            <label htmlFor="offers" className="font-medium text-gray-900">
+            <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Register an fname <span className="text-gray-400">(optional)</span>
             </label>
             <p id="offers-description" className="text-gray-500 mb-2">
@@ -68,7 +68,7 @@ export default function Checklist() {
               type="text"
               name="fname"
               id="fname"
-              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
+              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300"
               placeholder="Enter your fname"
               data-1p-ignore
             />
@@ -77,7 +77,7 @@ export default function Checklist() {
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
-            <label htmlFor="offers" className="font-medium text-gray-900">
+            <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Publish a cast
             </label>
             <p id="offers-description" className="text-gray-500 mb-2">
@@ -87,7 +87,7 @@ export default function Checklist() {
               type="text"
               name="cast"
               id="cast"
-              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
+              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300"
               placeholder="Type your cast"
             />
           </div>
