@@ -15,18 +15,27 @@ import { IdRegistryABI } from '@/abi/IdRegistryABI'
 
 export default function Checklist() {
 
-  const { address } = useAccount()
+  const { address, isConnected } = useAccount()
   const { fid, setFid } = useFid()
 
   const [castText, setCastText] = useState('')
   const [recoveryAddress, setRecoveryAddress] = useState<string>("")
+  const [disableRecoveryAddress, setDisableRecoveryAddress] = useState<boolean>(false)
 
-  const { data: idOf, isError, isLoading } = useContractRead({
+  const { data: idOf } = useContractRead({
     address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A',
     abi: IdRegistryABI,
     functionName: 'idOf',
     args: [address],
     enabled: Boolean(address),
+  })
+
+  const { data: recoveryOf } = useContractRead({
+    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A',
+    abi: IdRegistryABI,
+    functionName: 'recoveryOf',
+    args: [fid],
+    enabled: Boolean(fid),
   })
 
   useEffect(() => {
@@ -37,6 +46,17 @@ export default function Checklist() {
       setFid(null)
     }
   }, [idOf])
+
+  useEffect(() => {
+    console.log("Your recovery address is: " + recoveryOf)
+    if (recoveryOf) {
+      setRecoveryAddress(recoveryOf as string)
+      setDisableRecoveryAddress(true)
+    } else {
+      setRecoveryAddress("")
+      setDisableRecoveryAddress(false)
+    }
+  }, [recoveryOf])
 
   return (
     <fieldset className=" border-gray-200 min-w-[600px]">
@@ -59,9 +79,11 @@ export default function Checklist() {
               type="text"
               name="cast"
               id="cast"
+              value={recoveryAddress}
               onChange={(e) => setRecoveryAddress(e.target.value)}
-              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300"
+              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
               placeholder="Recovery address"
+              disabled={!isConnected || disableRecoveryAddress}
               data-1p-ignore
             />
           </div>
