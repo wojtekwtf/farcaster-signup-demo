@@ -43,7 +43,7 @@ export default function RegisterFIDButton() {
   return (
 
     <button
-      disabled={!isConnected || !fid || !write}
+      disabled={!isConnected || !fid}
       onClick={() => write?.()}
       type="button"
       className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${isSuccess && '!bg-green-500 !text-white'}}`}
