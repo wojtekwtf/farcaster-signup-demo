@@ -92,16 +92,19 @@ export default function Checklist() {
             <label htmlFor="comments" className="font-medium text-gray-900 dark:text-white">
               Register an FID
             </label>
-            <p id="comments-description" className="text-gray-500 dark:text-gray-400 mb-2">
+            <p id="comments-description" className="text-gray-500 dark:text-gray-400">
               To perform any action on farcaster, your need an FID <br /> and a recovery address
             </p>
+            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
+              Show code
+            </a>
             <input
               type="text"
               name="cast"
               id="cast"
               value={recoveryAddress}
               onChange={(e) => setRecoveryAddress(e.target.value)}
-              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+              className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
               placeholder="Recovery address"
               disabled={!isConnected || disableRecoveryAddress}
               data-1p-ignore
@@ -118,6 +121,9 @@ export default function Checklist() {
               To use Farcaster you need to pay for storing data in the hubs. <br />
               One storage unit lets you store up to 5000 casts a year and costs $7
             </p>
+            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RentStorageUnitButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
+              Show code
+            </a>
           </div>
           <RentStorageUnitButton />
         </div>
@@ -130,6 +136,9 @@ export default function Checklist() {
               Signers are keypairs that have a permission to write <br />
               to the protocol on your behalf.
             </p>
+            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/AddSignerButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
+              Show code
+            </a>
           </div>
           <AddSignerButton />
         </div>
@@ -138,16 +147,19 @@ export default function Checklist() {
             <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Register an fname <span className="text-gray-400">(optional)</span>
             </label>
-            <p id="offers-description" className="text-gray-500 mb-2 dark:text-gray-400">
+            <p id="offers-description" className="text-gray-500 dark:text-gray-400">
               Fnames are ENS domains managed by Warpcast team. <br />
               They are not required to use Farcaster. But you can register one anyway
             </p>
+            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFNameButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
+              Show code
+            </a>
             <input
               type="text"
               name="fname"
               id="fname"
               onChange={(e) => setFname(e.target.value)}
-              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+              className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
               placeholder="Enter your fname"
               disabled={!isConnected || !fid}
               data-1p-ignore
@@ -160,15 +172,18 @@ export default function Checklist() {
             <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
               Publish a cast
             </label>
-            <p id="offers-description" className="text-gray-500 mb-2 dark:text-gray-400">
+            <p id="offers-description" className="text-gray-500 dark:text-gray-400">
               With an FID, a storage unit and a signer you can publish a cast. <br />
             </p>
+            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/SendCastButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
+              Show code
+            </a>
             <input
               type="text"
               name="cast"
               id="cast"
               onChange={(e) => setCastText(e.target.value)}
-              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+              className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
               placeholder="Type your cast"
               disabled={!isConnected || !signer}
             />
