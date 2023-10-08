@@ -7,12 +7,36 @@ import AddSignerButton from './AddSignerButton'
 import RegisterFNameButton from './RegisterFNameButton'
 import SendCastButton from './SendCastButton'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useAccount, useContractRead } from 'wagmi'
+import { useFid } from '@/app/fidContext'
+import { IdRegistryABI } from '@/abi/IdRegistryABI'
 
 
 export default function Checklist() {
 
+  const { address } = useAccount()
+  const { fid, setFid } = useFid()
+
   const [castText, setCastText] = useState('')
+  const [recoveryAddress, setRecoveryAddress] = useState<string>("")
+
+  const { data: idOf, isError, isLoading } = useContractRead({
+    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A',
+    abi: IdRegistryABI,
+    functionName: 'idOf',
+    args: [address],
+    enabled: Boolean(address),
+  })
+
+  useEffect(() => {
+    console.log("Your FID is: " + idOf)
+    if (idOf) {
+      setFid(Number(idOf))
+    } else {
+      setFid(null)
+    }
+  }, [idOf])
 
   return (
     <fieldset className=" border-gray-200 min-w-[600px]">
@@ -28,11 +52,20 @@ export default function Checklist() {
             <label htmlFor="comments" className="font-medium text-gray-900 dark:text-white">
               Register an FID
             </label>
-            <p id="comments-description" className="text-gray-500 dark:text-gray-400">
-              To perform any action on farcaster, your need an FID.
+            <p id="comments-description" className="text-gray-500 dark:text-gray-400 mb-2">
+              To perform any action on farcaster, your need an FID <br /> and a recovery address
             </p>
+            <input
+              type="text"
+              name="cast"
+              id="cast"
+              onChange={(e) => setRecoveryAddress(e.target.value)}
+              className="block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300"
+              placeholder="Recovery address"
+              data-1p-ignore
+            />
           </div>
-          <RegisterFIDButton />
+          <RegisterFIDButton recoveryAddress={recoveryAddress} />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">

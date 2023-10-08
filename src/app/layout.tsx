@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import ClientLayout from './web3Provider'
+import { FidProvider } from './fidContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +21,9 @@ export default function RootLayout({
       <link rel="icon" href="https://framerusercontent.com/modules/jVMp8b8ZfTZpbLnhDiml/NV8p4XHr9GEQFJDJsKKb/assets/DE2CvWySqIW7eDC8Ehs5bCK6g.svg"></link>
       <body className={inter.className}>
         <ClientLayout>
-          {children}
+          <FidProvider>
+            {children}
+          </FidProvider>
         </ClientLayout>
       </body>
     </html>
