@@ -72,6 +72,8 @@ export default function Checklist() {
 
       const ed25519Signer = new NobleEd25519Signer(Buffer.from(privateKey, 'hex'));
       setSigner(ed25519Signer);
+    } else {
+      setSigner(null);
     }
   }, [fid])
 
