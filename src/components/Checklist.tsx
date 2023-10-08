@@ -45,7 +45,7 @@ export default function Checklist() {
     if (idOf) {
       setFid(Number(idOf))
     } else {
-      setFid(null)
+      setFid(0)
     }
   }, [idOf])
 

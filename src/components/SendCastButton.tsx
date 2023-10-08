@@ -7,11 +7,14 @@ import {
 import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react'
 
+import { useFid } from '@/app/fidContext'
+
 import axios from 'axios'
 
 export default function RegisterFIDButton({ castText }: { castText: string }) {
 
   const [signer, setSigner] = useState<NobleEd25519Signer | undefined>()
+  const { fid } = useFid()
   const { address } = useAccount()
 
   const sendCast = async () => {
@@ -42,7 +45,7 @@ export default function RegisterFIDButton({ castText }: { castText: string }) {
 
   useEffect(() => {
     // listen on localStorage for changes to the signer
-    const privateKey = localStorage.getItem(`signerPrivateKey-${address}`);
+    const privateKey = localStorage.getItem(`signerPrivateKey-${fid}`);
     if (privateKey === null) {
       return
     }

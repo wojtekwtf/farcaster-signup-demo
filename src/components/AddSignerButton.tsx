@@ -2,15 +2,22 @@ import { usePrepareContractWrite, useContractWrite, useAccount, useSignTypedData
 import * as ed from "@noble/ed25519";
 import { SignedKeyRequestMetadataABI } from '@/abi/SignedKeyRequestMetadataABI';
 import { encodeAbiParameters } from 'viem'
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { KeyRegistryABI } from '@/abi/KeyRegistryABI';
+
+import { useFid } from '@/app/fidContext'
+
+import PuffLoader from "react-spinners/PuffLoader";
 
 /*** EIP-712 helper code ***/
 
 const SIGNED_KEY_REQUEST_VALIDATOR_EIP_712_DOMAIN = {
   name: "Farcaster SignedKeyRequestValidator",
   version: "1",
-  chainId: 10,
-  verifyingContract: "0x00000000fc700472606ed4fa22623acf62c60553",
+  // chainId: 10, // mainnet
+  chainId: 420, // testnet
+  // verifyingContract: "0x00000000fc700472606ed4fa22623acf62c60553", // mainnet
+  verifyingContract: "0xd4d096D6Cfbab085e97e0011bEd6001DBb90D050", // testnet
 } as const;
 
 const SIGNED_KEY_REQUEST_TYPE = [
@@ -38,6 +45,9 @@ const encodeMetadata = (fid: number, address: string, signature: string, deadlin
 
 export default function AddSignerButton() {
 
+  const { fid } = useFid()
+  const { isConnected } = useAccount()
+
   const [privateKey, setPrivateKey] = useState<Uint8Array | undefined>()
   const [publicKey, setPublicKey] = useState<`0x${string}` | undefined>()
   const [metadata, setMetadata] = useState<`0x${string}` | undefined>()
@@ -45,14 +55,14 @@ export default function AddSignerButton() {
 
   const { address } = useAccount()
 
-  const { data, isSuccess, signTypedData } = useSignTypedData({
+  const { data, isLoading: isLoadingSign, isSuccess: isSuccessSign, signTypedData } = useSignTypedData({
     domain: SIGNED_KEY_REQUEST_VALIDATOR_EIP_712_DOMAIN,
     types: {
       SignedKeyRequest: SIGNED_KEY_REQUEST_TYPE,
     },
     primaryType: "SignedKeyRequest",
     message: {
-      requestFid: BigInt(15671), // TODO read from contract
+      requestFid: BigInt(fid),
       key: publicKey as `0x${string}`,
       deadline: BigInt(deadline),
     },
@@ -61,9 +71,7 @@ export default function AddSignerButton() {
   const { config, isError: isErrorPrepareContractWrite, error: errorPrepareContractWrite } = usePrepareContractWrite({
     // address: '0x00000000fC9e66f1c6d86D750B4af47fF0Cc343d', // mainnet
     address: '0x34A6F04B474eB64d9a82017a01acbe5A58A0F541', // testnet
-    abi: [
-      { "inputs": [{ "internalType": "uint32", "name": "keyType", "type": "uint32" }, { "internalType": "bytes", "name": "key", "type": "bytes" }, { "internalType": "uint8", "name": "metadataType", "type": "uint8" }, { "internalType": "bytes", "name": "metadata", "type": "bytes" }], "name": "add", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
-    ],
+    abi: KeyRegistryABI,
     functionName: 'add',
     args: [1, publicKey, 1, metadata],
     enabled: Boolean(metadata),
@@ -99,7 +107,7 @@ export default function AddSignerButton() {
   }, [])
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccessSign) {
       if (address === undefined) {
         alert("Wallet not connected")
         return
@@ -108,7 +116,7 @@ export default function AddSignerButton() {
         alert("Error signing data")
         return
       }
-      const metadata = encodeMetadata(15671, address, data, deadline)
+      const metadata = encodeMetadata(fid, address, data, deadline)
       setMetadata(metadata)
     }
   }, [data])
@@ -127,8 +135,8 @@ export default function AddSignerButton() {
   }, [write])
 
   useEffect(() => {
-    const signerPublicKeyLocalStorageKey = `signerPublicKey-${address}`
-    const signerPrivateKeyLocalStorageKey = `signerPrivateKey-${address}`
+    const signerPublicKeyLocalStorageKey = `signerPublicKey-${fid}`
+    const signerPrivateKeyLocalStorageKey = `signerPrivateKey-${fid}`
 
     if (isLoadingTx) {
       console.log(`https://optimistic.etherscan.io/tx/${txData?.hash}`)
@@ -149,12 +157,17 @@ export default function AddSignerButton() {
   return (
 
     <button
-      disabled={false}
+      disabled={!isConnected || !fid} // todo handle existing keys
       onClick={() => addSigner()}
       type="button"
-      className="w-28 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300"
+      className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${isSuccessTx && '!bg-green-500 !text-white'}}`}
     >
-      Add signer
+      <PuffLoader
+        color="#ffffff"
+        size={20}
+        loading={isLoadingTx || isLoadingSign}
+      />
+      {isSuccessTx ? 'Success' : 'Add'}
     </button >
   )
 }
