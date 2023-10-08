@@ -7,13 +7,15 @@ export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress
   const { address, isConnected } = useAccount()
 
   const { config } = usePrepareContractWrite({
-    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // switch for testnet/mainnet
+    // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
+    address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
     abi: [
       { "inputs": [{ "internalType": "address", "name": "recovery", "type": "address" }], "name": "register", "outputs": [{ "internalType": "uint256", "name": "fid", "type": "uint256" }], "stateMutability": "nonpayable", "type": "function" },
     ],
     functionName: 'register',
     args: [recoveryAddress],
-    enabled: false, // switch for testnet/mainnet
+    enabled: false, // mainnet
+    // enabled: true, // testnet
   })
   const { write } = useContractWrite(config)
 

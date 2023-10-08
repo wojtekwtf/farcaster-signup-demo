@@ -23,7 +23,8 @@ export default function Checklist() {
   const [disableRecoveryAddress, setDisableRecoveryAddress] = useState<boolean>(false)
 
   const { data: idOf } = useContractRead({
-    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A',
+    // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
+    address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
     abi: IdRegistryABI,
     functionName: 'idOf',
     args: [address],
@@ -31,7 +32,8 @@ export default function Checklist() {
   })
 
   const { data: recoveryOf } = useContractRead({
-    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A',
+    // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
+    address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
     abi: IdRegistryABI,
     functionName: 'recoveryOf',
     args: [fid],

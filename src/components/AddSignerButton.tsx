@@ -59,7 +59,8 @@ export default function AddSignerButton() {
   });
 
   const { config, isError: isErrorPrepareContractWrite, error: errorPrepareContractWrite } = usePrepareContractWrite({
-    address: '0x00000000fC9e66f1c6d86D750B4af47fF0Cc343d',
+    // address: '0x00000000fC9e66f1c6d86D750B4af47fF0Cc343d', // mainnet
+    address: '0x34A6F04B474eB64d9a82017a01acbe5A58A0F541', // testnet
     abi: [
       { "inputs": [{ "internalType": "uint32", "name": "keyType", "type": "uint32" }, { "internalType": "bytes", "name": "key", "type": "bytes" }, { "internalType": "uint8", "name": "metadataType", "type": "uint8" }, { "internalType": "bytes", "name": "metadata", "type": "bytes" }], "name": "add", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
     ],

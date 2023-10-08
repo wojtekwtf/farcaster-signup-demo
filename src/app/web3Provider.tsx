@@ -2,15 +2,16 @@
 
 import { FC, PropsWithChildren } from 'react'
 import { WagmiConfig, createConfig, mainnet } from 'wagmi'
-import { optimism } from 'wagmi/chains'
+import { optimism, optimismGoerli } from 'wagmi/chains'
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 
 const config = createConfig(
   getDefaultConfig({
     // Required API Keys
-    alchemyId: "wdTgzo6QiXtOb9HI8z-uqNaVfZ1PCLCP",
+    // alchemyId: "wdTgzo6QiXtOb9HI8z-uqNaVfZ1PCLCP", // mainnet
+    alchemyId: "GM0NI7rm9xRUUFpPs6bT5wKsM2YTaCuR", // testnet
     walletConnectProjectId: "5a2cb35e0ed7f091a5c2c9a5cf4ed988",
-    chains: [optimism],
+    chains: [optimismGoerli],
 
     // Required
     appName: "Sign up for Farcaster",
