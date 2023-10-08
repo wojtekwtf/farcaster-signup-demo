@@ -1,4 +1,5 @@
 'use client'
+import { NobleEd25519Signer } from '@farcaster/hub-web';
 
 import { ConnectKitButton } from 'connectkit'
 import RegisterFIDButton from './RegisterFIDButton'
@@ -9,7 +10,8 @@ import SendCastButton from './SendCastButton'
 
 import { useEffect, useState } from 'react'
 import { useAccount, useContractRead } from 'wagmi'
-import { useFid } from '@/app/fidContext'
+import { useFid } from '@/providers/fidContext'
+import { useSigner } from '@/providers/signerContext'
 import { IdRegistryABI } from '@/abi/IdRegistryABI'
 
 
@@ -17,6 +19,7 @@ export default function Checklist() {
 
   const { address, isConnected } = useAccount()
   const { fid, setFid } = useFid()
+  const { signer, setSigner } = useSigner()
 
   const [castText, setCastText] = useState('')
   const [recoveryAddress, setRecoveryAddress] = useState<string>("")
@@ -59,6 +62,18 @@ export default function Checklist() {
       setDisableRecoveryAddress(false)
     }
   }, [recoveryOf])
+
+  useEffect(() => {
+    if (fid !== 0) {
+      const privateKey = localStorage.getItem(`signerPrivateKey-${fid}`);
+      if (privateKey === null) {
+        return
+      }
+
+      const ed25519Signer = new NobleEd25519Signer(Buffer.from(privateKey, 'hex'));
+      setSigner(ed25519Signer);
+    }
+  }, [fid])
 
   return (
     <fieldset className=" border-gray-200 min-w-[600px]">

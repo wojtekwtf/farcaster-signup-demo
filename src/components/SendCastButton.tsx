@@ -7,7 +7,7 @@ import {
 import { useAccount } from 'wagmi';
 import { useEffect, useState } from 'react'
 
-import { useFid } from '@/app/fidContext'
+import { useFid } from '@/providers/fidContext'
 
 import axios from 'axios'
 

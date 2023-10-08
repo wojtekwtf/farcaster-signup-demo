@@ -1,5 +1,5 @@
 import { usePrepareContractWrite, useContractWrite, useAccount, useWaitForTransaction } from 'wagmi'
-import { useFid } from '@/app/fidContext'
+import { useFid } from '@/providers/fidContext'
 
 import PuffLoader from "react-spinners/PuffLoader";
 import { IdRegistryABI } from '@/abi/IdRegistryABI';

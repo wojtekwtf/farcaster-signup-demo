@@ -1,6 +1,6 @@
 import { usePrepareContractWrite, useContractWrite, useContractRead, useAccount, useWaitForTransaction } from 'wagmi'
 
-import { useFid } from '@/app/fidContext'
+import { useFid } from '@/providers/fidContext'
 import { StorageRegistryABI } from '@/abi/StorageRegistryABI'
 import { useEffect, useState } from 'react'
 

@@ -1,8 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import ClientLayout from './web3Provider'
-import { FidProvider } from './fidContext'
+import ClientLayout from '../providers/web3Provider'
+import { FidProvider } from '../providers/fidContext'
+import { SignerProvider } from '@/providers/signerContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientLayout>
           <FidProvider>
-            {children}
+            <SignerProvider>
+              {children}
+            </SignerProvider>
           </FidProvider>
         </ClientLayout>
       </body>

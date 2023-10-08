@@ -1,3 +1,5 @@
+import { NobleEd25519Signer } from '@farcaster/hub-web';
+
 import { usePrepareContractWrite, useContractWrite, useAccount, useSignTypedData, useWaitForTransaction } from 'wagmi'
 import * as ed from "@noble/ed25519";
 import { SignedKeyRequestMetadataABI } from '@/abi/SignedKeyRequestMetadataABI';
@@ -5,9 +7,10 @@ import { encodeAbiParameters } from 'viem'
 import { useEffect, useState } from 'react';
 import { KeyRegistryABI } from '@/abi/KeyRegistryABI';
 
-import { useFid } from '@/app/fidContext'
+import { useFid } from '@/providers/fidContext'
 
 import PuffLoader from "react-spinners/PuffLoader";
+import { useSigner } from '@/providers/signerContext';
 
 /*** EIP-712 helper code ***/
 
@@ -46,6 +49,7 @@ const encodeMetadata = (fid: number, address: string, signature: string, deadlin
 export default function AddSignerButton() {
 
   const { fid } = useFid()
+  const { signer, setSigner } = useSigner()
   const { isConnected } = useAccount()
 
   const [privateKey, setPrivateKey] = useState<Uint8Array | undefined>()
@@ -149,7 +153,9 @@ export default function AddSignerButton() {
 
       localStorage.setItem(signerPublicKeyLocalStorageKey, publicKey as `0x${string}`)
       localStorage.setItem(signerPrivateKeyLocalStorageKey, ed.etc.bytesToHex(privateKey as Uint8Array))
-      alert("Signer added")
+
+      const ed25519Signer = new NobleEd25519Signer(privateKey as Uint8Array);
+      setSigner(ed25519Signer);
     }
   }, [isLoadingTx, isSuccessTx])
 
@@ -157,17 +163,17 @@ export default function AddSignerButton() {
   return (
 
     <button
-      disabled={!isConnected || !fid} // todo handle existing keys
+      disabled={!isConnected || !fid || !!signer}
       onClick={() => addSigner()}
       type="button"
-      className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${isSuccessTx && '!bg-green-500 !text-white'}}`}
+      className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${(isSuccessTx || !!signer) && '!bg-green-500 !text-white !dark:text-white'}}`}
     >
       <PuffLoader
         color="#ffffff"
         size={20}
         loading={isLoadingTx || isLoadingSign}
       />
-      {isSuccessTx ? 'Success' : 'Add'}
+      {!!signer ? 'Signer ready' : isSuccessTx ? 'Success' : 'Add'}
     </button >
   )
 }
