@@ -54,7 +54,7 @@ export default function Checklist() {
 
   useEffect(() => {
     console.log("Your recovery address is: " + recoveryOf)
-    if (recoveryOf) {
+    if (recoveryOf !== undefined) {
       setRecoveryAddress(recoveryOf as string)
       setDisableRecoveryAddress(true)
     } else {

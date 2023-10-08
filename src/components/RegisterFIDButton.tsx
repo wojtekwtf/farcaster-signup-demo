@@ -1,6 +1,7 @@
 import { usePrepareContractWrite, useContractWrite, useAccount, useWaitForTransaction } from 'wagmi'
 import { useFid } from '@/providers/fidContext'
 
+import { useEffect } from 'react'
 import PuffLoader from "react-spinners/PuffLoader";
 import { IdRegistryABI } from '@/abi/IdRegistryABI';
 
@@ -15,21 +16,27 @@ export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress
     abi: IdRegistryABI,
     functionName: 'register',
     args: [recoveryAddress],
-    enabled: false, // mainnet
-    // enabled: true, // testnet
+    // enabled: false, // mainnet
+    enabled: true, // testnet
   })
   const { data: rentTxHash, write } = useContractWrite(config)
 
-  const { isError, isLoading, isSuccess } = useWaitForTransaction({
+  const { data: txFid, isError, isLoading, isSuccess: isSuccessTx } = useWaitForTransaction({
     hash: rentTxHash?.hash,
   })
+
+  useEffect(() => {
+    if (isSuccessTx) {
+      setFid(parseInt(txFid?.logs[0].topics[2] as string, 16))
+    }
+  }, [isSuccessTx])
 
   return (
 
     <button
       disabled={!isConnected
         || address === undefined
-        || fid !== null
+        || fid !== 0
         || !(/^(0x)?[0-9a-fA-F]{40}$/i.test(recoveryAddress))
         || recoveryAddress.toLowerCase() === address.toLowerCase()}
       onClick={() => write?.()}
