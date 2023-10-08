@@ -94,7 +94,7 @@ export default function Checklist() {
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
             <label htmlFor="candidates" className="font-medium text-gray-900 dark:text-white">
-              Purchase a storage unit
+              Rent a storage unit
             </label>
             <p id="candidates-description" className="text-gray-500 dark:text-gray-400">
               To use Farcaster you need to pay for storing data in the hubs. <br />
