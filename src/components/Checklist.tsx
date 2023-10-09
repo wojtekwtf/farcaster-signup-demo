@@ -33,12 +33,12 @@ export default function Checklist() {
   const [rentTxHash, setRentTxHash] = useState<string>("")
   const [addSignerTxHash, setAddSignerTxHash] = useState<string>("")
 
-  // const BLOCK_EXPLORER_URL = "https://optimistic.etherscan.io/" // mainnet
-  const BLOCK_EXPLORER_URL = "https://goerli-optimism.etherscan.io/" // testnet
+  const BLOCK_EXPLORER_URL = "https://optimistic.etherscan.io/" // mainnet
+  // const BLOCK_EXPLORER_URL = "https://goerli-optimism.etherscan.io/" // testnet
 
   const { data: idOf } = useContractRead({
-    // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
-    address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
+    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
+    // address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
     abi: IdRegistryABI,
     functionName: 'idOf',
     args: [address],
@@ -46,8 +46,8 @@ export default function Checklist() {
   })
 
   const { data: recoveryOf } = useContractRead({
-    // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
-    address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
+    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
+    // address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
     abi: IdRegistryABI,
     functionName: 'recoveryOf',
     args: [fid],
