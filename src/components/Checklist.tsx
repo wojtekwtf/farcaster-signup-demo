@@ -14,6 +14,8 @@ import { useFid } from '@/providers/fidContext'
 import { useSigner } from '@/providers/signerContext'
 import { IdRegistryABI } from '@/abi/IdRegistryABI'
 
+import { Toaster } from 'sonner'
+
 
 export default function Checklist() {
 
@@ -80,6 +82,7 @@ export default function Checklist() {
 
   return (
     <fieldset className=" border-gray-200 min-w-[600px]">
+      <Toaster richColors />
       <div className='flex flex-row justify-between mb-6'>
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
           Sign up for Farcaster
