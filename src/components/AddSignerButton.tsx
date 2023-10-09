@@ -9,6 +9,7 @@ import { KeyRegistryABI } from '@/abi/KeyRegistryABI';
 
 import { useFid } from '@/providers/fidContext'
 
+import { toast } from 'sonner'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import PuffLoader from "react-spinners/PuffLoader";
 import { useSigner } from '@/providers/signerContext';
@@ -114,11 +115,11 @@ export default function AddSignerButton() {
   useEffect(() => {
     if (isSuccessSign) {
       if (address === undefined) {
-        alert("Wallet not connected")
+        toast.error("Error signing data")
         return
       }
       if (data === undefined) {
-        alert("Error signing data")
+        toast.error("Error signing data")
         return
       }
       const metadata = encodeMetadata(fid, address, data, deadline)
@@ -127,17 +128,22 @@ export default function AddSignerButton() {
   }, [data])
 
   useEffect(() => {
-    if (metadata === undefined) {
-      return
-    }
-  }, [metadata])
-
-  useEffect(() => {
     // This will trigger the tx signing prompt once the tx is prepared and simulated by wagmi
     if (write) {
       write()
     }
   }, [write])
+
+  useEffect(() => {
+    if (isErrorPrepareContractWrite) {
+      toast.error(errorPrepareContractWrite?.message)
+    }
+    if (isErrorContractWrite) {
+      toast.error(errorContractWrite?.message)
+    }
+
+  }, [isErrorPrepareContractWrite, isErrorContractWrite])
+
 
   useEffect(() => {
     const signerPublicKeyLocalStorageKey = `signerPublicKey-${fid}`
@@ -157,6 +163,7 @@ export default function AddSignerButton() {
 
       const ed25519Signer = new NobleEd25519Signer(privateKey as Uint8Array);
       setSigner(ed25519Signer);
+      toast.success("Signer added")
     }
   }, [isLoadingTx, isSuccessTx])
 

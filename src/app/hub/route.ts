@@ -9,7 +9,9 @@ export async function POST(req: Request) {
     const message = Message.fromJSON(data.message)
     const result = await client.submitMessage(message)
 
-    console.log(result)
+    if (result.isErr()) {
+        return new Response(result.error.message, { status: 400 });
+    }
 
     return new Response("success");
 }

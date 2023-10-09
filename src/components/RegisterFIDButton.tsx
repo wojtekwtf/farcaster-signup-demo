@@ -35,7 +35,9 @@ export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress
 
   useEffect(() => {
     if (isSuccessTx) {
-      setFid(parseInt(txFid?.logs[0].topics[2] as string, 16))
+      const newFid = parseInt(txFid?.logs[0].topics[2] as string, 16)
+      setFid(newFid)
+      toast.success(`FID ${newFid} registered!`)
     }
   }, [isSuccessTx])
 

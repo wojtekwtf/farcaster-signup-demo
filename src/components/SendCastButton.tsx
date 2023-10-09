@@ -53,7 +53,8 @@ export default function RegisterFIDButton({ castText }: { castText: string }) {
           setIsSending(false)
         })
         .catch((err) => {
-          toast.error("Failed to send cast", { description: err })
+          console.log(err)
+          toast.error("Failed to send cast", { description: err.response.data })
           setIsSending(false)
         })
       setIsSending(true)

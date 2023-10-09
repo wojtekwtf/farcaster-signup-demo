@@ -2,7 +2,7 @@ import { usePrepareContractWrite, useContractWrite, useContractRead, useAccount,
 
 import { useFid } from '@/providers/fidContext'
 import { StorageRegistryABI } from '@/abi/StorageRegistryABI'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import PuffLoader from "react-spinners/PuffLoader";
@@ -52,6 +52,12 @@ export default function RegisterFIDButton() {
       setPrice(Math.floor(Number(unitPrice) * 1.1))
     }
   }, [unitPrice])
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(`Storage unit rented!`)
+    }
+  }, [isSuccess])
 
   return (
 
