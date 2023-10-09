@@ -46,6 +46,8 @@ export default function Checklist() {
     functionName: 'idOf',
     args: [address],
     enabled: Boolean(address),
+    // chainId: 10, // mainnet
+    chainId: 420, // testnet
   })
 
   const { data: recoveryOf } = useContractRead({
@@ -55,6 +57,8 @@ export default function Checklist() {
     functionName: 'recoveryOf',
     args: [fid],
     enabled: Boolean(fid),
+    // chainId: 10, // mainnet
+    chainId: 420, // testnet
   })
 
   useEffect(() => {
@@ -81,12 +85,10 @@ export default function Checklist() {
     if (fid !== 0) {
       console.log("checking signer")
       const privateKey = localStorage.getItem(`signerPrivateKey-${fid}`);
-      if (privateKey === null) {
-        return
+      if (privateKey !== null) {
+        const ed25519Signer = new NobleEd25519Signer(Buffer.from(privateKey, 'hex'));
+        setSigner(ed25519Signer);
       }
-
-      const ed25519Signer = new NobleEd25519Signer(Buffer.from(privateKey, 'hex'));
-      setSigner(ed25519Signer);
     } else {
       setSigner(null);
     }
@@ -96,7 +98,7 @@ export default function Checklist() {
       console.log("checking storage units")
       axios.get(`http://nemes.farcaster.xyz:2281/v1/storageLimitsByFid?fid=${fid}`)
         .then(function (response) {
-          setHasStorage(Boolean(response.data.limits[0].limit))
+          // setHasStorage(Boolean(response.data.limits[0].limit)) // mainnet
         })
         .catch(function (error) {
           console.log(error);
@@ -110,8 +112,8 @@ export default function Checklist() {
       axios.get(`https://fnames.farcaster.xyz/transfers?fid=${fid}`)
         .then(function (response) {
           if (response.data.transfers.length > 0) {
-            setFname(response.data.transfers[0].username)
-            setDisableFname(true)
+            // setFname(response.data.transfers[0].username) // mainnet
+            // setDisableFname(true) // mainnet
           }
         })
         .catch(function (error) {

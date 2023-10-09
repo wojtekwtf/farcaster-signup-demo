@@ -129,7 +129,9 @@ export default function AddSignerButton({ setAddSignerTxHash }: { setAddSignerTx
 
   useEffect(() => {
     // This will trigger the tx signing prompt once the tx is prepared and simulated by wagmi
-    if (isSuccessPrepare && !!metadata && !!deadline) {
+    if (isSuccessPrepare && !!metadata && !!deadline && !signer) {
+      // this may be buggy: isSuccessPrepare can trigger randomly in wrong moments
+      // but at least we have a check that it wont once we have a signer
       writeAddSigner?.()
     }
   }, [isSuccessPrepare])

@@ -33,6 +33,7 @@ export default function RegisterFIDButton({ hasStorage, setHasStorage, setRentTx
   const { data: rentTxHash, write } = useContractWrite(config)
 
   const { isError, isLoading, isSuccess } = useWaitForTransaction({
+    chainId: 420, // testnet
     hash: rentTxHash?.hash,
   })
 
@@ -57,6 +58,7 @@ export default function RegisterFIDButton({ hasStorage, setHasStorage, setRentTx
 
   useEffect(() => {
     if (isSuccess) {
+      // TODO fix this firing when i register an fname
       toast.success(`Storage unit rented!`)
       setHasStorage(true)
     }
