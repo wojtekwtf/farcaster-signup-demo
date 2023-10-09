@@ -9,7 +9,7 @@ import RegisterFNameButton from './RegisterFNameButton'
 import SendCastButton from './SendCastButton'
 
 import { useEffect, useState } from 'react'
-import { useAccount, useContractRead } from 'wagmi'
+import { useAccount, useContractRead, useNetwork } from 'wagmi'
 import { useFid } from '@/providers/fidContext'
 import { useSigner } from '@/providers/signerContext'
 import { IdRegistryABI } from '@/abi/IdRegistryABI'
@@ -22,6 +22,7 @@ export default function Checklist() {
   const { address, isConnected } = useAccount()
   const { fid, setFid } = useFid()
   const { signer, setSigner } = useSigner()
+  const { chain } = useNetwork()
 
   const [recoveryAddress, setRecoveryAddress] = useState<string>("")
   const [fname, setFname] = useState<string>("")
@@ -50,7 +51,7 @@ export default function Checklist() {
     console.log("Your FID is: " + idOf)
     if (idOf) {
       setFid(Number(idOf))
-    } else {
+    } else if (chain?.id !== 1) {
       setFid(0)
     }
   }, [idOf])
