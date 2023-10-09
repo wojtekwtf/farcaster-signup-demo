@@ -29,6 +29,7 @@ export default function Checklist() {
   const [fname, setFname] = useState<string>("")
   const [castText, setCastText] = useState('')
   const [disableRecoveryAddress, setDisableRecoveryAddress] = useState<boolean>(false)
+  const [disableFname, setDisableFname] = useState<boolean>(false)
   const [hasStorage, setHasStorage] = useState<boolean>(false)
 
   const [registerFidTxHash, setRegisterFidTxHash] = useState<string>("")
@@ -78,6 +79,7 @@ export default function Checklist() {
 
   useEffect(() => {
     if (fid !== 0) {
+      console.log("checking signer")
       const privateKey = localStorage.getItem(`signerPrivateKey-${fid}`);
       if (privateKey === null) {
         return
@@ -101,6 +103,22 @@ export default function Checklist() {
         });
     } else {
       setHasStorage(false)
+    }
+
+    if (fid !== 0) {
+      console.log("checking fname")
+      axios.get(`https://fnames.farcaster.xyz/transfers?fid=${fid}`)
+        .then(function (response) {
+          if (response.data.transfers.length > 0) {
+            setFname(response.data.transfers[0].username)
+            setDisableFname(true)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      setFname("")
     }
   }, [fid])
 
@@ -213,11 +231,11 @@ export default function Checklist() {
               onChange={(e) => setFname(e.target.value)}
               className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
               placeholder="Enter your fname"
-              disabled={!isConnected || !fid}
+              disabled={!isConnected || !fid || disableFname}
               data-1p-ignore
             />
           </div>
-          <RegisterFNameButton fname={fname} />
+          <RegisterFNameButton fname={fname} disableFname={disableFname} setDisableFname={setDisableFname} />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">

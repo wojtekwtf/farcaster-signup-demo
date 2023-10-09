@@ -4,6 +4,8 @@ import axios from 'axios'
 
 import { useFid } from '@/providers/fidContext'
 import { toast } from 'sonner';
+
+import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import PuffLoader from "react-spinners/PuffLoader";
 
 const MESSAGE_DOMAIN = {
@@ -21,7 +23,7 @@ const MESSAGE_TYPE = {
   ],
 } as const;
 
-export default function RegisterFIDButton({ fname }: { fname: string }) {
+export default function RegisterFIDButton({ fname, disableFname, setDisableFname }: { fname: string, disableFname: boolean, setDisableFname: (value: boolean) => void }) {
 
   const { address, isConnected } = useAccount()
   const { fid } = useFid()
@@ -72,6 +74,7 @@ export default function RegisterFIDButton({ fname }: { fname: string }) {
           setIsLoading(false)
           switchNetwork?.(10) // mainnet
           // TODO update name in the hub
+          // TODO disable fname
         })
         .catch((error) => {
           toast.error("Failed to register fname", { description: error.response.data.code })
@@ -90,17 +93,17 @@ export default function RegisterFIDButton({ fname }: { fname: string }) {
   return (
 
     <button
-      disabled={!isConnected || !fid || !signTypedData}
+      disabled={!isConnected || !fid || !signTypedData || disableFname}
       onClick={() => registerFname()}
       type="button"
-      className="w-28 inline-flex justify-center items-center gap-x-1.5 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300"
+      className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${disableFname && '!bg-green-500 !text-white'}`}
     >
       <PuffLoader
         color="#ffffff"
         size={20}
         loading={isLoading}
       />
-      Register
+      {disableFname ? <CheckCircleIcon className='w-5 h-5' /> : 'Register'}
     </button >
   )
 }
