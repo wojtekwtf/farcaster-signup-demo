@@ -20,8 +20,8 @@ export default function RegisterFIDButton() {
   })
 
   const { config } = usePrepareContractWrite({
-    // address: '0x00000000fcce7f938e7ae6d3c335bd6a1a7c593d', // mainnet
-    address: '0xa6B79d91FAD0E4952FDaB8Cc2DE803fC423aAdBf', // testnet
+    address: '0x00000000fcce7f938e7ae6d3c335bd6a1a7c593d', // mainnet
+    // address: '0xa6B79d91FAD0E4952FDaB8Cc2DE803fC423aAdBf', // testnet
     abi: StorageRegistryABI,
     functionName: 'rent',
     args: [fid, 1],
