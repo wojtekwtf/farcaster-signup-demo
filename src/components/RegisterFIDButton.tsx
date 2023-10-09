@@ -53,7 +53,7 @@ export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress
       }
       onClick={() => registerFid()}
       type="button"
-      className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${fid && "!bg-green-500 !text-white"}`}
+      className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${fid && "!bg-green-500 !text-white font-normal"}`}
     >
       <PuffLoader
         color="#ffffff"
