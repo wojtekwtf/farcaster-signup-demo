@@ -4,6 +4,7 @@ import { useFid } from '@/providers/fidContext'
 import { StorageRegistryABI } from '@/abi/StorageRegistryABI'
 import { useEffect, useState } from 'react'
 
+import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import PuffLoader from "react-spinners/PuffLoader";
 
 export default function RegisterFIDButton() {
@@ -53,7 +54,7 @@ export default function RegisterFIDButton() {
         size={20}
         loading={isLoading}
       />
-      {isSuccess ? 'Success' : 'Rent'}
+      {isSuccess ? <CheckCircleIcon className='w-5 h-5' /> : 'Rent'}
     </button >
   )
 }

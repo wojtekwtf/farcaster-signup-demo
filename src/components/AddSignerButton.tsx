@@ -9,6 +9,7 @@ import { KeyRegistryABI } from '@/abi/KeyRegistryABI';
 
 import { useFid } from '@/providers/fidContext'
 
+import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import PuffLoader from "react-spinners/PuffLoader";
 import { useSigner } from '@/providers/signerContext';
 
@@ -173,7 +174,7 @@ export default function AddSignerButton() {
         size={20}
         loading={isLoadingTx || isLoadingSign}
       />
-      {!!signer ? 'Signer ready' : isSuccessTx ? 'Success' : 'Add'}
+      {!!signer ? <CheckCircleIcon className='w-5 h-5' /> : isSuccessTx ? 'Success' : 'Add'}
     </button >
   )
 }
