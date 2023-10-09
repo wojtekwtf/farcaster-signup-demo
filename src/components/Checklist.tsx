@@ -119,6 +119,7 @@ export default function Checklist() {
         });
     } else {
       setFname("")
+      setDisableFname(false)
     }
   }, [fid])
 
