@@ -6,7 +6,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { IdRegistryABI } from '@/abi/IdRegistryABI';
 import { toast } from 'sonner';
 
-export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress: string }) {
+export default function RegisterFIDButton({ recoveryAddress, setRegisterFidTxHash }: { recoveryAddress: string, setRegisterFidTxHash: (hash: string) => void }) {
 
   const { fid, setFid } = useFid()
   const { address, isConnected } = useAccount()
@@ -19,10 +19,10 @@ export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress
     args: [recoveryAddress],
     enabled: Boolean(recoveryAddress),
   })
-  const { data: rentTxHash, write } = useContractWrite(config)
+  const { data: registerFidTxHash, write } = useContractWrite(config)
 
   const { data: txFid, isLoading, isSuccess: isSuccessTx } = useWaitForTransaction({
-    hash: rentTxHash?.hash,
+    hash: registerFidTxHash?.hash,
   })
 
   const registerFid = async () => {
@@ -40,6 +40,12 @@ export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress
       toast.success(`FID ${newFid} registered!`)
     }
   }, [isSuccessTx])
+
+  useEffect(() => {
+    if (!!registerFidTxHash) {
+      setRegisterFidTxHash(registerFidTxHash.hash)
+    }
+  }, [registerFidTxHash])
 
   return (
 

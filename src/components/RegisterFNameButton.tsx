@@ -71,6 +71,7 @@ export default function RegisterFIDButton({ fname }: { fname: string }) {
           toast.success("Fname registered")
           setIsLoading(false)
           switchNetwork?.(10) // mainnet
+          // TODO update name in the hub
         })
         .catch((error) => {
           toast.error("Failed to register fname", { description: error.response.data.code })

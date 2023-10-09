@@ -48,7 +48,7 @@ const encodeMetadata = (fid: number, address: string, signature: string, deadlin
 }
 
 
-export default function AddSignerButton() {
+export default function AddSignerButton({ setAddSignerTxHash }: { setAddSignerTxHash: (hash: string) => void }) {
 
   const { fid } = useFid()
   const { signer, setSigner } = useSigner()
@@ -166,6 +166,12 @@ export default function AddSignerButton() {
       toast.success("Signer added")
     }
   }, [isLoadingTx, isSuccessTx])
+
+  useEffect(() => {
+    if (!!txData) {
+      setAddSignerTxHash(txData.hash)
+    }
+  }, [txData])
 
 
   return (

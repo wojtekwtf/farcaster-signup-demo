@@ -8,7 +8,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import PuffLoader from "react-spinners/PuffLoader";
 import { toast } from 'sonner'
 
-export default function RegisterFIDButton() {
+export default function RegisterFIDButton({ setRentTxHash }: { setRentTxHash: (hash: string) => void }) {
 
   const { fid } = useFid()
   const { isConnected } = useAccount()
@@ -60,6 +60,12 @@ export default function RegisterFIDButton() {
       toast.success(`Storage unit rented!`)
     }
   }, [isSuccess])
+
+  useEffect(() => {
+    if (!!rentTxHash) {
+      setRentTxHash(rentTxHash.hash)
+    }
+  }, [rentTxHash])
 
   return (
 

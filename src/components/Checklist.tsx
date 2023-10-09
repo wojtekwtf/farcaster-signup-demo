@@ -29,6 +29,13 @@ export default function Checklist() {
   const [castText, setCastText] = useState('')
   const [disableRecoveryAddress, setDisableRecoveryAddress] = useState<boolean>(false)
 
+  const [registerFidTxHash, setRegisterFidTxHash] = useState<string>("")
+  const [rentTxHash, setRentTxHash] = useState<string>("")
+  const [addSignerTxHash, setAddSignerTxHash] = useState<string>("")
+
+  // const BLOCK_EXPLORER_URL = "https://optimistic.etherscan.io/" // mainnet
+  const BLOCK_EXPLORER_URL = "https://goerli-optimism.etherscan.io/" // testnet
+
   const { data: idOf } = useContractRead({
     // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
     address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
@@ -99,9 +106,17 @@ export default function Checklist() {
             <p id="comments-description" className="text-gray-500 dark:text-gray-400">
               To perform any action on farcaster, your need an FID <br /> and a recovery address
             </p>
-            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
-              Show code
-            </a>
+            <div className='flex flex-row gap-x-1 text-gray-500 dark:text-gray-400'>
+              <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx' target='_blank' className="underline">
+                Go to code
+              </a>
+              {!!registerFidTxHash && <p>|</p>}
+              {!!registerFidTxHash &&
+                <a href={`${BLOCK_EXPLORER_URL}tx/${registerFidTxHash}`} target='_blank' className="underline">
+                  Show transaction
+                </a>
+              }
+            </div>
             <input
               type="text"
               name="cast"
@@ -114,7 +129,7 @@ export default function Checklist() {
               data-1p-ignore
             />
           </div>
-          <RegisterFIDButton recoveryAddress={recoveryAddress} />
+          <RegisterFIDButton recoveryAddress={recoveryAddress} setRegisterFidTxHash={setRegisterFidTxHash} />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -125,11 +140,19 @@ export default function Checklist() {
               To use Farcaster you need to pay for storing data in the hubs. <br />
               One storage unit lets you store up to 5000 casts a year and costs $7
             </p>
-            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RentStorageUnitButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
-              Show code
-            </a>
+            <div className='flex flex-row gap-x-1 text-gray-500 dark:text-gray-400'>
+              <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RentStorageUnitButton.tsx' target='_blank' className="underline">
+                Go to code
+              </a>
+              {!!rentTxHash && <p>|</p>}
+              {!!rentTxHash &&
+                <a href={`${BLOCK_EXPLORER_URL}tx/${rentTxHash}`} target='_blank' className="underline">
+                  Show transaction
+                </a>
+              }
+            </div>
           </div>
-          <RentStorageUnitButton />
+          <RentStorageUnitButton setRentTxHash={setRentTxHash} />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -140,11 +163,19 @@ export default function Checklist() {
               Signers are keypairs that have a permission to write <br />
               to the protocol on your behalf.
             </p>
-            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/AddSignerButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
-              Show code
-            </a>
+            <div className='flex flex-row gap-x-1 text-gray-500 dark:text-gray-400'>
+              <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/AddSignerButton.tsx' target='_blank' className="underline">
+                Go to code
+              </a>
+              {!!addSignerTxHash && <p>|</p>}
+              {!!addSignerTxHash &&
+                <a href={`${BLOCK_EXPLORER_URL}tx/${addSignerTxHash}`} target='_blank' className="underline">
+                  Show transaction
+                </a>
+              }
+            </div>
           </div>
-          <AddSignerButton />
+          <AddSignerButton setAddSignerTxHash={setAddSignerTxHash} />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -155,8 +186,8 @@ export default function Checklist() {
               Fnames are ENS domains managed by Warpcast team. <br />
               They are not required to use Farcaster. But you can register one anyway
             </p>
-            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFNameButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
-              Show code
+            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFNameButton.tsx' target='_blank' className="text-gray-500 dark:text-gray-400 underline">
+              Go to code
             </a>
             <input
               type="text"
@@ -179,8 +210,8 @@ export default function Checklist() {
             <p id="offers-description" className="text-gray-500 dark:text-gray-400">
               With an FID, a storage unit and a signer you can publish a cast. <br />
             </p>
-            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/SendCastButton.tsx' target='_blank' id="comments-description" className="text-gray-500 dark:text-gray-400 underline">
-              Show code
+            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/SendCastButton.tsx' target='_blank' className="text-gray-500 dark:text-gray-400 underline">
+              Go to code
             </a>
             <input
               type="text"
