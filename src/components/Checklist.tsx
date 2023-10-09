@@ -89,7 +89,7 @@ export default function Checklist() {
   }, [fid])
 
   return (
-    <fieldset className=" border-gray-200 min-w-[600px]">
+    <fieldset className="border-gray-200 md:min-w-[600px]">
       <Toaster richColors expand={true} />
       <div className='flex flex-row justify-between mb-6'>
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
