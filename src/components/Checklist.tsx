@@ -101,10 +101,11 @@ export default function Checklist() {
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
             <label htmlFor="comments" className="font-medium text-gray-900 dark:text-white">
-              Register an FID
+              Create account
             </label>
             <p id="comments-description" className="text-gray-500 dark:text-gray-400">
-              To perform any action on farcaster, your need an FID <br /> and a recovery address
+              Register a new Farcaster ID to your Ethereum address and choose <br />
+              a recovery address
             </p>
             <div className='flex flex-row gap-x-1 text-gray-500 dark:text-gray-400'>
               <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx' target='_blank' className="underline">
@@ -134,11 +135,11 @@ export default function Checklist() {
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
             <label htmlFor="candidates" className="font-medium text-gray-900 dark:text-white">
-              Rent a storage unit
+              Rent storage
             </label>
             <p id="candidates-description" className="text-gray-500 dark:text-gray-400">
-              To use Farcaster you need to pay for storing data in the hubs. <br />
-              One storage unit lets you store up to 5000 casts a year and costs $7
+              Renting one unit of storage lets you store up to 5,000 casts for a year. <br />
+              The fee helps reduce spam on the network.
             </p>
             <div className='flex flex-row gap-x-1 text-gray-500 dark:text-gray-400'>
               <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RentStorageUnitButton.tsx' target='_blank' className="underline">
@@ -160,8 +161,7 @@ export default function Checklist() {
               Add a signer
             </label>
             <p id="offers-description" className="text-gray-500 dark:text-gray-400">
-              Signers are keypairs that have a permission to write <br />
-              to the protocol on your behalf.
+              A signer is a key pair that lets you create new messages or "casts"
             </p>
             <div className='flex flex-row gap-x-1 text-gray-500 dark:text-gray-400'>
               <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/AddSignerButton.tsx' target='_blank' className="underline">
@@ -180,11 +180,11 @@ export default function Checklist() {
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
             <label htmlFor="offers" className="font-medium text-gray-900 dark:text-white">
-              Register an fname <span className="text-gray-400">(optional)</span>
+              Register an fname <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <p id="offers-description" className="text-gray-500 dark:text-gray-400">
-              Fnames are ENS domains managed by Warpcast team. <br />
-              They are not required to use Farcaster. But you can register one anyway
+              Acquire a free offchain ENS username issued by Farcaster. <br />
+              You can also use onchain ENS names, but that's not covered here.
             </p>
             <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFNameButton.tsx' target='_blank' className="text-gray-500 dark:text-gray-400 underline">
               Go to code
@@ -208,7 +208,7 @@ export default function Checklist() {
               Publish a cast
             </label>
             <p id="offers-description" className="text-gray-500 dark:text-gray-400">
-              With an FID, a storage unit and a signer you can publish a cast. <br />
+              Write a hello world message or cast that shows up on your account.
             </p>
             <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/SendCastButton.tsx' target='_blank' className="text-gray-500 dark:text-gray-400 underline">
               Go to code

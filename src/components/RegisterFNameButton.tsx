@@ -43,7 +43,7 @@ export default function RegisterFIDButton({ fname }: { fname: string }) {
 
   const registerFname = async () => {
     if (fname.length === 0) {
-      toast.error("Fname can't be empty")
+      toast.error("fname can't be empty")
       return
     }
     if (isError) {
@@ -68,7 +68,7 @@ export default function RegisterFIDButton({ fname }: { fname: string }) {
         "signature": signature // EIP-712 signature signed by the custody address of the fid
       })
         .then((response) => {
-          toast.success("Fname registered")
+          toast.success("fname registered")
           setIsLoading(false)
           switchNetwork?.(10) // mainnet
           // TODO update name in the hub
