@@ -15,6 +15,7 @@ import { useSigner } from '@/providers/signerContext'
 import { IdRegistryABI } from '@/abi/IdRegistryABI'
 
 import { Toaster } from 'sonner'
+import axios from 'axios';
 
 
 export default function Checklist() {
@@ -28,6 +29,7 @@ export default function Checklist() {
   const [fname, setFname] = useState<string>("")
   const [castText, setCastText] = useState('')
   const [disableRecoveryAddress, setDisableRecoveryAddress] = useState<boolean>(false)
+  const [hasStorage, setHasStorage] = useState<boolean>(false)
 
   const [registerFidTxHash, setRegisterFidTxHash] = useState<string>("")
   const [rentTxHash, setRentTxHash] = useState<string>("")
@@ -85,6 +87,20 @@ export default function Checklist() {
       setSigner(ed25519Signer);
     } else {
       setSigner(null);
+    }
+
+    if (fid !== 0) {
+      // todo change to my hub
+      console.log("checking storage units")
+      axios.get(`http://nemes.farcaster.xyz:2281/v1/storageLimitsByFid?fid=${fid}`)
+        .then(function (response) {
+          setHasStorage(Boolean(response.data.limits[0].limit))
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      setHasStorage(false)
     }
   }, [fid])
 
@@ -153,7 +169,7 @@ export default function Checklist() {
               }
             </div>
           </div>
-          <RentStorageUnitButton setRentTxHash={setRentTxHash} />
+          <RentStorageUnitButton hasStorage={hasStorage} setHasStorage={setHasStorage} setRentTxHash={setRentTxHash} />
         </div>
         <div className="relative flex items-start pb-4 pt-3.5">
           <div className="min-w-0 flex-1 text-sm leading-6">
@@ -193,6 +209,7 @@ export default function Checklist() {
               type="text"
               name="fname"
               id="fname"
+              value={fname}
               onChange={(e) => setFname(e.target.value)}
               className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
               placeholder="Enter your fname"

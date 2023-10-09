@@ -83,7 +83,7 @@ export default function AddSignerButton({ setAddSignerTxHash }: { setAddSignerTx
     enabled: Boolean(metadata),
   })
 
-  const { data: txData, isError: isErrorContractWrite, error: errorContractWrite, isIdle, isLoading, write } = useContractWrite(config)
+  const { data: txData, isError: isErrorContractWrite, error: errorContractWrite, write: writeAddSigner } = useContractWrite(config)
 
   const { isLoading: isLoadingTx, isSuccess: isSuccessTx } = useWaitForTransaction({
     hash: txData?.hash,
@@ -129,8 +129,8 @@ export default function AddSignerButton({ setAddSignerTxHash }: { setAddSignerTx
 
   useEffect(() => {
     // This will trigger the tx signing prompt once the tx is prepared and simulated by wagmi
-    if (isSuccessPrepare && !!write && !!metadata && !!deadline) {
-      write()
+    if (isSuccessPrepare && !!metadata && !!deadline) {
+      writeAddSigner?.()
     }
   }, [isSuccessPrepare])
 
