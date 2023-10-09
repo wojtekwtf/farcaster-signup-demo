@@ -8,10 +8,10 @@ import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 const config = createConfig(
   getDefaultConfig({
     // Required API Keys
-    alchemyId: "wdTgzo6QiXtOb9HI8z-uqNaVfZ1PCLCP", // mainnet
-    // alchemyId: "GM0NI7rm9xRUUFpPs6bT5wKsM2YTaCuR", // testnet
+    // alchemyId: "wdTgzo6QiXtOb9HI8z-uqNaVfZ1PCLCP", // mainnet
+    alchemyId: "GM0NI7rm9xRUUFpPs6bT5wKsM2YTaCuR", // testnet
     walletConnectProjectId: "5a2cb35e0ed7f091a5c2c9a5cf4ed988",
-    chains: [optimism, mainnet],
+    chains: [optimismGoerli, mainnet],
 
     // Required
     appName: "Sign up for Farcaster",

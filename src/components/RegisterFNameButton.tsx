@@ -71,15 +71,15 @@ export default function RegisterFIDButton({ fname, disableFname, setDisableFname
       })
         .then((response) => {
           toast.success("fname registered")
-          setIsLoading(false)
-          switchNetwork?.(10) // mainnet
-          // TODO update name in the hub
-          // TODO disable fname
+          // disable fname, set name as main in hubs etc
         })
         .catch((error) => {
           toast.error("Failed to register fname", { description: error.response.data.code })
+        })
+        .finally(() => {
           setIsLoading(false)
-          switchNetwork?.(10) // mainnet
+          // switchNetwork?.(10) // mainnet
+          switchNetwork?.(420) // testnet
         });
     }
   }, [isSuccessSign])
