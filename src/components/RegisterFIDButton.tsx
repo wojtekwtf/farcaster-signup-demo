@@ -12,13 +12,12 @@ export default function RegisterFIDButton({ recoveryAddress }: { recoveryAddress
   const { address, isConnected } = useAccount()
 
   const { config, isError, error } = usePrepareContractWrite({
-    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
-    // address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
+    // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
+    address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
     abi: IdRegistryABI,
     functionName: 'register',
     args: [recoveryAddress],
-    // enabled: false, // mainnet
-    enabled: true, // testnet
+    enabled: Boolean(recoveryAddress),
   })
   const { data: rentTxHash, write } = useContractWrite(config)
 
