@@ -14,7 +14,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { toast } from 'sonner';
 import axios from 'axios'
 
-export default function RegisterFIDButton({ castText }: { castText: string }) {
+export default function SendCastButton({ castText }: { castText: string }) {
 
   const { signer } = useSigner()
   const { fid } = useFid()

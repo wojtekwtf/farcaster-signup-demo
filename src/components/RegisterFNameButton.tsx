@@ -23,7 +23,7 @@ const MESSAGE_TYPE = {
   ],
 } as const;
 
-export default function RegisterFIDButton({ fname, disableFname, setDisableFname }: { fname: string, disableFname: boolean, setDisableFname: (value: boolean) => void }) {
+export default function RegisterFnameButton({ fname, disableFname, setDisableFname }: { fname: string, disableFname: boolean, setDisableFname: (value: boolean) => void }) {
 
   const { address, isConnected } = useAccount()
   const { fid } = useFid()
