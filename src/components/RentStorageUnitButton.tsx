@@ -57,8 +57,7 @@ export default function RegisterFIDButton({ hasStorage, setHasStorage, setRentTx
   }, [unitPrice])
 
   useEffect(() => {
-    if (isSuccess) {
-      // TODO fix this firing when i register an fname
+    if (isSuccess && !hasStorage) {
       toast.success(`Storage unit rented!`)
       setHasStorage(true)
     }

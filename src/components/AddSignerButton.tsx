@@ -137,11 +137,13 @@ export default function AddSignerButton({ setAddSignerTxHash }: { setAddSignerTx
   }, [isSuccessPrepare])
 
   useEffect(() => {
-    if (isErrorPrepareContractWrite) {
-      toast.error(errorPrepareContractWrite?.message)
-    }
-    if (isErrorContractWrite) {
-      toast.error(errorContractWrite?.message)
+    if (!signer) {
+      if (isErrorPrepareContractWrite) {
+        toast.error(errorPrepareContractWrite?.message)
+      }
+      if (isErrorContractWrite) {
+        toast.error(errorContractWrite?.message)
+      }
     }
 
   }, [isErrorPrepareContractWrite, isErrorContractWrite])
