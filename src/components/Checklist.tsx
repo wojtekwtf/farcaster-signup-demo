@@ -254,12 +254,12 @@ export default function Checklist() {
                 Go to code
               </a>
               {!!castHash && <p>|</p>}
-              {!!castHash &&
-                fname ?
+              {(!!castHash && !!fname) &&
                 <a href={`https://warpcast.com/${fname}/${castHash.slice(0, 10)}`} target='_blank' className="underline">
                   See on warpcast
                 </a>
-                :
+              }
+              {(!!castHash && !fname) &&
                 <a href={`https://warpcast.com/~/conversations/${castHash.slice(0, 10)}`} target='_blank' className="underline">
                   See on warpcast
                 </a>
