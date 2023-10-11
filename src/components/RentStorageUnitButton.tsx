@@ -33,7 +33,7 @@ export default function RentStorageUnitButton({ hasStorage, setHasStorage, setRe
   const { data: rentTxHash, write } = useContractWrite(config)
 
   const { isError, isLoading, isSuccess } = useWaitForTransaction({
-    chainId: 420, // testnet
+    // chainId: 420, // testnet
     hash: rentTxHash?.hash,
   })
 

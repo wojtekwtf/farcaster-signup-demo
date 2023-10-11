@@ -28,6 +28,7 @@ export default function Checklist() {
   const [recoveryAddress, setRecoveryAddress] = useState<string>("")
   const [fname, setFname] = useState<string>("")
   const [castText, setCastText] = useState('')
+  const [castHash, setCastHash] = useState<string>("")
   const [disableRecoveryAddress, setDisableRecoveryAddress] = useState<boolean>(false)
   const [disableFname, setDisableFname] = useState<boolean>(false)
   const [hasStorage, setHasStorage] = useState<boolean>(false)
@@ -248,9 +249,23 @@ export default function Checklist() {
             <p id="offers-description" className="text-gray-500 dark:text-gray-400">
               Write a hello world message or cast that shows up on your account.
             </p>
-            <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/SendCastButton.tsx' target='_blank' className="text-gray-500 dark:text-gray-400 underline">
-              Go to code
-            </a>
+            <div className='flex flex-row gap-x-1 text-gray-500 dark:text-gray-400'>
+              <a href='https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/SendCastButton.tsx' target='_blank' className="text-gray-500 dark:text-gray-400 underline">
+                Go to code
+              </a>
+              {!!castHash && <p>|</p>}
+              {!!castHash &&
+                <a href={`https://warpcast.com/${fname}/${castHash.slice(0, 10)}`} target='_blank' className="underline">
+                  See on warpcast
+                </a>
+              }
+              {!!castHash && <p>|</p>}
+              {!!castHash &&
+                <a href={`https://flink.fyi/${fname}/${castHash}`} target='_blank' className="underline">
+                  See on flink.fyi
+                </a>
+              }
+            </div>
             <input
               type="text"
               name="cast"
@@ -261,7 +276,7 @@ export default function Checklist() {
               disabled={!isConnected || !signer}
             />
           </div>
-          <SendCastButton castText={castText} />
+          <SendCastButton castText={castText} castHash={castHash} setCastHash={setCastHash} />
         </div>
       </div>
     </fieldset>

@@ -13,5 +13,5 @@ export async function POST(req: Request) {
         return new Response(result.error.message, { status: 400 });
     }
 
-    return new Response("success");
+    return new Response(JSON.stringify(result));
 }

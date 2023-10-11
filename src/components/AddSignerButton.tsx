@@ -19,10 +19,10 @@ import { useSigner } from '@/providers/signerContext';
 const SIGNED_KEY_REQUEST_VALIDATOR_EIP_712_DOMAIN = {
   name: "Farcaster SignedKeyRequestValidator",
   version: "1",
-  // chainId: 10, // mainnet
-  chainId: 420, // testnet
-  // verifyingContract: "0x00000000fc700472606ed4fa22623acf62c60553", // mainnet
-  verifyingContract: "0xd4d096D6Cfbab085e97e0011bEd6001DBb90D050", // testnet
+  chainId: 10, // mainnet
+  // chainId: 420, // testnet
+  verifyingContract: "0x00000000fc700472606ed4fa22623acf62c60553", // mainnet
+  // verifyingContract: "0xd4d096D6Cfbab085e97e0011bEd6001DBb90D050", // testnet
 } as const;
 
 const SIGNED_KEY_REQUEST_TYPE = [

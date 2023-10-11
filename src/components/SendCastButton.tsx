@@ -14,7 +14,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { toast } from 'sonner';
 import axios from 'axios'
 
-export default function SendCastButton({ castText }: { castText: string }) {
+export default function SendCastButton({ castText, castHash, setCastHash }: { castText: string, castHash: string, setCastHash: (castHash: string) => void }) {
 
   const { signer } = useSigner()
   const { fid } = useFid()
@@ -51,6 +51,7 @@ export default function SendCastButton({ castText }: { castText: string }) {
         .then((res) => {
           toast.success("Cast sent")
           setIsSending(false)
+          setCastHash(`0x${Buffer.from(res.data.value.hash).toString("hex")}`)
         })
         .catch((err) => {
           console.log(err)
