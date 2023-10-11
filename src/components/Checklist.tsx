@@ -255,12 +255,17 @@ export default function Checklist() {
               </a>
               {!!castHash && <p>|</p>}
               {!!castHash &&
+                fname ?
                 <a href={`https://warpcast.com/${fname}/${castHash.slice(0, 10)}`} target='_blank' className="underline">
                   See on warpcast
                 </a>
+                :
+                <a href={`https://warpcast.com/~/conversations/${castHash.slice(0, 10)}`} target='_blank' className="underline">
+                  See on warpcast
+                </a>
               }
-              {!!castHash && <p>|</p>}
-              {!!castHash &&
+              {(!!castHash && !!fname) && <p>|</p>}
+              {(!!castHash && !!fname) &&
                 <a href={`https://flink.fyi/${fname}/${castHash}`} target='_blank' className="underline">
                   See on flink.fyi
                 </a>
