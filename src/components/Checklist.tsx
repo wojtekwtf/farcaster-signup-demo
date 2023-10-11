@@ -66,6 +66,7 @@ export default function Checklist() {
     console.log("Your FID is: " + idOf)
     if (idOf) {
       setFid(Number(idOf))
+      setDisableRecoveryAddress(true)
     } else if (chain?.id !== 1) {
       setFid(0)
     }
