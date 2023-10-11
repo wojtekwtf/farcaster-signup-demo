@@ -78,8 +78,8 @@ export default function RegisterFnameButton({ fname, disableFname, setDisableFna
         })
         .finally(() => {
           setIsLoading(false)
-          // switchNetwork?.(10) // mainnet
-          switchNetwork?.(420) // testnet
+          switchNetwork?.(10) // mainnet
+          // switchNetwork?.(420) // testnet
         });
     }
   }, [isSuccessSign])

@@ -36,18 +36,18 @@ export default function Checklist() {
   const [rentTxHash, setRentTxHash] = useState<string>("")
   const [addSignerTxHash, setAddSignerTxHash] = useState<string>("")
 
-  // const BLOCK_EXPLORER_URL = "https://optimistic.etherscan.io/" // mainnet
-  const BLOCK_EXPLORER_URL = "https://goerli-optimism.etherscan.io/" // testnet
+  const BLOCK_EXPLORER_URL = "https://optimistic.etherscan.io/" // mainnet
+  // const BLOCK_EXPLORER_URL = "https://goerli-optimism.etherscan.io/" // testnet
 
   const { data: idOf } = useContractRead({
-    // address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
-    address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
+    address: '0x00000000FcAf86937e41bA038B4fA40BAA4B780A', // mainnet
+    // address: '0xb088Ff89329D74EdE2dD63C43c2951215910853D', // testnet
     abi: IdRegistryABI,
     functionName: 'idOf',
     args: [address],
     enabled: Boolean(address),
-    // chainId: 10, // mainnet
-    chainId: 420, // testnet
+    chainId: 10, // mainnet
+    // chainId: 420, // testnet
   })
 
   const { data: recoveryOf } = useContractRead({
@@ -57,8 +57,8 @@ export default function Checklist() {
     functionName: 'recoveryOf',
     args: [fid],
     enabled: Boolean(fid),
-    // chainId: 10, // mainnet
-    chainId: 420, // testnet
+    chainId: 10, // mainnet
+    // chainId: 420, // testnet
   })
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function Checklist() {
       console.log("checking storage units")
       axios.get(`http://nemes.farcaster.xyz:2281/v1/storageLimitsByFid?fid=${fid}`)
         .then(function (response) {
-          // setHasStorage(Boolean(response.data.limits[0].limit)) // mainnet
+          setHasStorage(Boolean(response.data.limits[0].limit)) // mainnet
         })
         .catch(function (error) {
           console.log(error);
@@ -112,8 +112,8 @@ export default function Checklist() {
       axios.get(`https://fnames.farcaster.xyz/transfers?fid=${fid}`)
         .then(function (response) {
           if (response.data.transfers.length > 0) {
-            // setFname(response.data.transfers[0].username) // mainnet
-            // setDisableFname(true) // mainnet
+            setFname(response.data.transfers[0].username) // mainnet
+            setDisableFname(true) // mainnet
           }
         })
         .catch(function (error) {
