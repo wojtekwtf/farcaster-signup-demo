@@ -1,5 +1,14 @@
+import {
+  FarcasterNetwork,
+  makeUserDataAdd,
+  UserDataType,
+  NobleEd25519Signer,
+  Message
+} from '@farcaster/hub-web';
+
 import { useAccount, useSignTypedData, useSwitchNetwork } from 'wagmi'
 import { useEffect, useState } from 'react'
+import { useSigner } from '@/providers/signerContext'
 import axios from 'axios'
 
 import { useFid } from '@/providers/fidContext'
@@ -25,6 +34,7 @@ const MESSAGE_TYPE = {
 
 export default function RegisterFnameButton({ fname, disableFname, setDisableFname }: { fname: string, disableFname: boolean, setDisableFname: (value: boolean) => void }) {
 
+  const { signer } = useSigner()
   const { address, isConnected } = useAccount()
   const { fid } = useFid()
   const [isLoading, setIsLoading] = useState(false)
@@ -58,6 +68,42 @@ export default function RegisterFnameButton({ fname, disableFname, setDisableFna
     switchNetwork?.(1)
   }
 
+  const setFnameAsPrimary = async () => {
+
+    const dataOptions = {
+      fid: fid,
+      network: FarcasterNetwork.MAINNET,
+    };
+
+    const userDataAddBody = {
+      type: UserDataType.USERNAME,
+      value: fname,
+    };
+
+    const message = await makeUserDataAdd(
+      userDataAddBody,
+      dataOptions,
+      signer as NobleEd25519Signer
+    );
+
+    if (message) {
+      axios
+        .post("/hub", { message: Message.toJSON(message.unwrapOr(null) as Message) })
+        .then((res) => {
+          toast.success("fname registered")
+          setDisableFname(true)
+        })
+        .catch((err) => {
+          toast.error("Failed to register fname", { description: err.response.data })
+        })
+        .finally(() => {
+          setIsLoading(false)
+        });
+    } else {
+      console.log("Failed to create message")
+    }
+  }
+
   useEffect(() => {
     if (isSuccessSign) {
       axios.post("https://fnames.farcaster.xyz/transfers", {
@@ -70,8 +116,7 @@ export default function RegisterFnameButton({ fname, disableFname, setDisableFna
         "signature": signature // EIP-712 signature signed by the custody address of the fid
       })
         .then((response) => {
-          toast.success("fname registered")
-          // disable fname, set name as main in hubs etc
+          setFnameAsPrimary()
         })
         .catch((error) => {
           toast.error("Failed to register fname", { description: error.response.data.code })
