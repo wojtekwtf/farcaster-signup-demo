@@ -75,7 +75,7 @@ export default function AddSignerButton({ setAddSignerTxHash }: { setAddSignerTx
   });
 
   const { config, isSuccess: isSuccessPrepare, isError: isErrorPrepareContractWrite, error: errorPrepareContractWrite } = usePrepareContractWrite({
-    address: '0x00000000fC9e66f1c6d86D750B4af47fF0Cc343d', // mainnet
+    address: '0x00000000Fc1237824fb747aBDE0FF18990E59b7e', // mainnet
     // address: '0x34A6F04B474eB64d9a82017a01acbe5A58A0F541', // testnet
     abi: KeyRegistryABI,
     functionName: 'add',
