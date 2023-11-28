@@ -89,7 +89,12 @@ export default function AddSignerButton({
     },
   });
 
-  const upw = usePrepareContractWrite({
+  const {
+    config,
+    isSuccess: isSuccessPrepare,
+    isError: isErrorPrepareContractWrite,
+    error: errorPrepareContractWrite,
+  } = usePrepareContractWrite({
     address: "0x00000000fC56947c7E7183f8Ca4B62398CaAdf0B", // mainnet
     // address: '0x34A6F04B474eB64d9a82017a01acbe5A58A0F541', // testnet
     abi: KeyGatewayABI,
@@ -97,12 +102,6 @@ export default function AddSignerButton({
     args: [1, publicKey, 1, metadata],
     enabled: Boolean(metadata),
   });
-  const {
-    config,
-    isSuccess: isSuccessPrepare,
-    isError: isErrorPrepareContractWrite,
-    error: errorPrepareContractWrite,
-  } = upw;
 
   const {
     data: txData,
