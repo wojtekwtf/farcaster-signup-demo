@@ -1,16 +1,19 @@
-import { NobleEd25519Signer } from "@farcaster/hub-web";
+import {
+  KEY_GATEWAY_ADDRESS,
+  NobleEd25519Signer,
+  ViemWalletEip712Signer,
+} from "@farcaster/hub-web";
 
 import {
   usePrepareContractWrite,
   useContractWrite,
   useAccount,
-  useSignTypedData,
   useWaitForTransaction,
+  useWalletClient,
 } from "wagmi";
 import * as ed from "@noble/ed25519";
-import { SignedKeyRequestMetadataABI } from "@/abi/SignedKeyRequestMetadataABI";
-import { EIP1193ProviderRpcError, encodeAbiParameters } from "viem";
-import { useEffect, useState } from "react";
+import { bytesToHex, hexToBytes } from "viem";
+import { useCallback, useEffect, useState } from "react";
 import { KeyGatewayABI } from "@/abi/KeyGatewayABI";
 
 import { useFid } from "@/providers/fidContext";
@@ -19,41 +22,6 @@ import { toast } from "sonner";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import PuffLoader from "react-spinners/PuffLoader";
 import { useSigner } from "@/providers/signerContext";
-
-/*** EIP-712 helper code ***/
-
-const SIGNED_KEY_REQUEST_VALIDATOR_EIP_712_DOMAIN = {
-  name: "Farcaster SignedKeyRequestValidator",
-  version: "1",
-  chainId: 10, // mainnet
-  // chainId: 420, // testnet
-  verifyingContract: "0x00000000fc700472606ed4fa22623acf62c60553", // mainnet
-  // verifyingContract: "0xd4d096D6Cfbab085e97e0011bEd6001DBb90D050", // testnet
-} as const;
-
-const SIGNED_KEY_REQUEST_TYPE = [
-  { name: "requestFid", type: "uint256" },
-  { name: "key", type: "bytes" },
-  { name: "deadline", type: "uint256" },
-] as const;
-
-const encodeMetadata = (
-  fid: number,
-  address: string,
-  signature: string,
-  deadline: number
-) => {
-  const encodedData = encodeAbiParameters(SignedKeyRequestMetadataABI.inputs, [
-    {
-      requestFid: BigInt(fid),
-      requestSigner: address,
-      signature: signature,
-      deadline: BigInt(deadline),
-    },
-  ]);
-
-  return encodedData;
-};
 
 export default function AddSignerButton({
   setAddSignerTxHash,
@@ -68,26 +36,9 @@ export default function AddSignerButton({
   const [publicKey, setPublicKey] = useState<`0x${string}` | undefined>();
   const [metadata, setMetadata] = useState<`0x${string}` | undefined>();
   const [deadline, setDeadline] = useState<number>(0);
+  const [isLoadingSign, setIsLoadingSign] = useState<boolean>(false);
 
-  const { address } = useAccount();
-
-  const {
-    data,
-    isLoading: isLoadingSign,
-    isSuccess: isSuccessSign,
-    signTypedData,
-  } = useSignTypedData({
-    domain: SIGNED_KEY_REQUEST_VALIDATOR_EIP_712_DOMAIN,
-    types: {
-      SignedKeyRequest: SIGNED_KEY_REQUEST_TYPE,
-    },
-    primaryType: "SignedKeyRequest",
-    message: {
-      requestFid: BigInt(fid),
-      key: publicKey as `0x${string}`,
-      deadline: BigInt(deadline),
-    },
-  });
+  const { data: walletClient } = useWalletClient();
 
   const {
     config,
@@ -95,8 +46,7 @@ export default function AddSignerButton({
     isError: isErrorPrepareContractWrite,
     error: errorPrepareContractWrite,
   } = usePrepareContractWrite({
-    address: "0x00000000fC56947c7E7183f8Ca4B62398CaAdf0B", // mainnet
-    // address: '0x34A6F04B474eB64d9a82017a01acbe5A58A0F541', // testnet
+    address: KEY_GATEWAY_ADDRESS,
     abi: KeyGatewayABI,
     functionName: "add",
     args: [1, publicKey, 1, metadata],
@@ -115,9 +65,27 @@ export default function AddSignerButton({
       hash: txData?.hash,
     });
 
-  const addSigner = async () => {
-    signTypedData();
-  };
+  const addSigner = useCallback(async () => {
+    if (walletClient && fid && publicKey && deadline) {
+      setIsLoadingSign(true);
+      const eip712signer = new ViemWalletEip712Signer(walletClient);
+      const metadata = await eip712signer.getSignedKeyRequestMetadata({
+        requestFid: BigInt(fid),
+        key: hexToBytes(publicKey),
+        deadline: BigInt(deadline),
+      });
+      metadata.match(
+        (metadata) => {
+          setIsLoadingSign(false);
+          setMetadata(bytesToHex(metadata));
+        },
+        (error) => {
+          setIsLoadingSign(false);
+          toast.error(error.message);
+        }
+      );
+    }
+  }, [walletClient, fid, publicKey, deadline, setIsLoadingSign, setMetadata]);
 
   const generateKeyPair = async () => {
     const privateKey = ed.utils.randomPrivateKey();
@@ -137,21 +105,6 @@ export default function AddSignerButton({
       setDeadline(deadline);
     }
   }, []);
-
-  useEffect(() => {
-    if (isSuccessSign) {
-      if (address === undefined) {
-        toast.error("Error signing data");
-        return;
-      }
-      if (data === undefined) {
-        toast.error("Error signing data");
-        return;
-      }
-      const metadata = encodeMetadata(fid, address, data, deadline);
-      setMetadata(metadata);
-    }
-  }, [data]);
 
   useEffect(() => {
     // This will trigger the tx signing prompt once the tx is prepared and simulated by wagmi
@@ -212,7 +165,7 @@ export default function AddSignerButton({
 
   return (
     <button
-      disabled={!isConnected || !fid || !!signer}
+      disabled={!isConnected || !walletClient || !fid || !!signer}
       onClick={() => addSigner()}
       type="button"
       className={`w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300 ${
