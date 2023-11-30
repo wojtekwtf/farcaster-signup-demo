@@ -211,7 +211,7 @@ export default function BundlerChecklist() {
             </p>
             <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
               <a
-                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx"
+                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/CollectRegisterSigButton.tsx"
                 target="_blank"
                 className="underline"
               >
@@ -246,7 +246,7 @@ export default function BundlerChecklist() {
             </p>
             <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
               <a
-                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx"
+                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/GenerateSignedKeyMetadata.tsx"
                 target="_blank"
                 className="underline"
               >
@@ -279,7 +279,7 @@ export default function BundlerChecklist() {
             </p>
             <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
               <a
-                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/AddSignerButton.tsx"
+                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/CollectAddKeySigButton.tsx"
                 target="_blank"
                 className="underline"
               >
@@ -314,7 +314,7 @@ export default function BundlerChecklist() {
             </p>
             <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
               <a
-                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx"
+                href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/BundlerRegisterButton.tsx"
                 target="_blank"
                 className="underline"
               >
