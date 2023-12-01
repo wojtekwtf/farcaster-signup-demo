@@ -272,7 +272,7 @@ export default function BundlerChecklist() {
               id="offers-description"
               className="text-gray-500 dark:text-gray-400"
             >
-              Collect an offchain signature from the account that's signing up
+              Collect an offchain signature from the account receiving the FID
               to
               <br />
               authorize adding the new signer.
@@ -307,10 +307,9 @@ export default function BundlerChecklist() {
               id="comments-description"
               className="text-gray-500 dark:text-gray-400"
             >
-              Call the Bundler contract with the collected signatures and
-              metadata
+              Call the Bundler contract with the collected signatures to
               <br />
-              to register in a single transaction.
+              register in a single transaction.
             </p>
             <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
               <a
