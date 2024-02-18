@@ -1,8 +1,7 @@
 import { getInsecureHubRpcClient, Message } from "@farcaster/hub-nodejs";
+import { FARCASTER_GRPC_URL } from "@/constants";
 
-const HUB_URL = "3.17.4.160:2283"; // URL + Port of the Hub
-
-const client = getInsecureHubRpcClient(HUB_URL);
+const client = getInsecureHubRpcClient(FARCASTER_GRPC_URL);
 
 export async function POST(req: Request) {
     const data = await req.json();

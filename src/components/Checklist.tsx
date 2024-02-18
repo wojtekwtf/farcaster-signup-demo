@@ -14,9 +14,16 @@ import { useFid } from "@/providers/fidContext";
 import { useSigner } from "@/providers/signerContext";
 import { IdRegistryABI } from "@/abi/IdRegistryABI";
 
-import { Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 import axios from "axios";
 import { Hex } from "viem";
+
+import {
+  BLOCK_EXPLORER_URL,
+  FARCASTER_HTTP_URL,
+  FNAME_URL,
+  REQUEST_TIMEOUT,
+} from "@/constants";
 
 export default function Checklist() {
   const { address, isConnected } = useAccount();
@@ -36,9 +43,6 @@ export default function Checklist() {
   const [registerFidTxHash, setRegisterFidTxHash] = useState<string>("");
   const [rentTxHash, setRentTxHash] = useState<string>("");
   const [addSignerTxHash, setAddSignerTxHash] = useState<string>("");
-
-  const BLOCK_EXPLORER_URL = "https://optimistic.etherscan.io/"; // mainnet
-  // const BLOCK_EXPLORER_URL = "https://goerli-optimism.etherscan.io/" // testnet
 
   const { data: idOf } = useContractRead({
     address: "0x00000000Fc6c5F01Fc30151999387Bb99A9f489b", // mainnet
@@ -63,7 +67,7 @@ export default function Checklist() {
   });
 
   useEffect(() => {
-    console.log("Your FID is: " + idOf);
+    console.log(`Your FID is: ${idOf}`);
     if (idOf) {
       setFid(Number(idOf));
       setDisableRecoveryAddress(true);
@@ -73,7 +77,7 @@ export default function Checklist() {
   }, [idOf]);
 
   useEffect(() => {
-    console.log("Your recovery address is: " + recoveryOf);
+    console.log(`Your recovery address is: ${recoveryOf}`);
     if (recoveryOf !== undefined) {
       setRecoveryAddress(recoveryOf as Hex);
       setDisableRecoveryAddress(true);
@@ -101,12 +105,17 @@ export default function Checklist() {
       // todo change to my hub
       console.log("checking storage units");
       axios
-        .get(`http://nemes.farcaster.xyz:2281/v1/storageLimitsByFid?fid=${fid}`)
-        .then(function (response) {
+        .get(`${FARCASTER_HTTP_URL}/v1/storageLimitsByFid?fid=${fid}`, {
+          timeout: REQUEST_TIMEOUT,
+        })
+        .then((response) => {
           setHasStorage(Boolean(response.data.limits[0].limit)); // mainnet
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
+          toast.error(
+            "Error checking storage units. The hub url you're using might be down. Check console for more information."
+          );
+          console.error(error);
         });
     } else {
       setHasStorage(false);
@@ -115,14 +124,19 @@ export default function Checklist() {
     if (fid !== 0) {
       console.log("checking fname");
       axios
-        .get(`https://fnames.farcaster.xyz/transfers?fid=${fid}`)
-        .then(function (response) {
+        .get(`${FNAME_URL}/transfers?fid=${fid}`, {
+          timeout: REQUEST_TIMEOUT,
+        })
+        .then((response) => {
           if (response.data.transfers.length > 0) {
             setFname(response.data.transfers[0].username); // mainnet
             setDisableFname(true); // mainnet
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
+          toast.error(
+            "Error checking fname. The fname url you're using might be down. Check console for more information."
+          );
           console.log(error);
         });
     } else {
@@ -161,6 +175,7 @@ export default function Checklist() {
                 href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFIDButton.tsx"
                 target="_blank"
                 className="underline"
+                rel="noreferrer"
               >
                 Go to code
               </a>
@@ -170,6 +185,7 @@ export default function Checklist() {
                   href={`${BLOCK_EXPLORER_URL}tx/${registerFidTxHash}`}
                   target="_blank"
                   className="underline"
+                  rel="noreferrer"
                 >
                   Show transaction
                 </a>
@@ -213,6 +229,7 @@ export default function Checklist() {
                 href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RentStorageUnitButton.tsx"
                 target="_blank"
                 className="underline"
+                rel="noreferrer"
               >
                 Go to code
               </a>
@@ -222,6 +239,7 @@ export default function Checklist() {
                   href={`${BLOCK_EXPLORER_URL}tx/${rentTxHash}`}
                   target="_blank"
                   className="underline"
+                  rel="noreferrer"
                 >
                   Show transaction
                 </a>
@@ -254,6 +272,7 @@ export default function Checklist() {
                 href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/AddSignerButton.tsx"
                 target="_blank"
                 className="underline"
+                rel="noreferrer"
               >
                 Go to code
               </a>
@@ -263,6 +282,7 @@ export default function Checklist() {
                   href={`${BLOCK_EXPLORER_URL}tx/${addSignerTxHash}`}
                   target="_blank"
                   className="underline"
+                  rel="noreferrer"
                 >
                   Show transaction
                 </a>
@@ -291,6 +311,7 @@ export default function Checklist() {
               href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/RegisterFNameButton.tsx"
               target="_blank"
               className="text-gray-500 dark:text-gray-400 underline"
+              rel="noreferrer"
             >
               Go to code
             </a>
@@ -331,6 +352,7 @@ export default function Checklist() {
                 href="https://github.com/wojtekwtf/farcaster-signup-demo/blob/main/src/components/SendCastButton.tsx"
                 target="_blank"
                 className="text-gray-500 dark:text-gray-400 underline"
+                rel="noreferrer"
               >
                 Go to code
               </a>
@@ -343,6 +365,7 @@ export default function Checklist() {
                   )}`}
                   target="_blank"
                   className="underline"
+                  rel="noreferrer"
                 >
                   See on warpcast
                 </a>
@@ -355,6 +378,7 @@ export default function Checklist() {
                   )}`}
                   target="_blank"
                   className="underline"
+                  rel="noreferrer"
                 >
                   See on warpcast
                 </a>
@@ -365,6 +389,7 @@ export default function Checklist() {
                   href={`https://flink.fyi/${fname}/${castHash}`}
                   target="_blank"
                   className="underline"
+                  rel="noreferrer"
                 >
                   See on flink.fyi
                 </a>
